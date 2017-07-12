@@ -1,7 +1,7 @@
 const routers = [{
     path: '/',
     meta: {
-        title: ''
+        title: '超想去旅行'
     },
     component: (resolve) => require(['./views/index.vue'], resolve),
     children:[{
