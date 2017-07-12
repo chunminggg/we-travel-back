@@ -20,7 +20,7 @@ export default{
     },
     uploadProdut(data,successCallback){
         debugger
-        var Product = AV.Object.extend('product')
+        var Product = AV.Object.extend('Product')
         var product = new Product()
         // startDate:_self.productStartDate,
         //             endDate:_self.productEndDate,
