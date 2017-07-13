@@ -19,18 +19,9 @@ export default{
       });
     },
     uploadProdut(data,successCallback){
-        debugger
+        
         var Product = AV.Object.extend('Product')
         var product = new Product()
-        // startDate:_self.productStartDate,
-        //             endDate:_self.productEndDate,
-        //             name:_self.productName,
-        //             describe:_self.productDes,
-        //             type:_self.productTypeSelected,
-        //             place:_self.productPlace,
-        //             onleyId:_self.productNumber,
-        //             price:_self.productPrice,
-        //             imageArray:_self.imageArray
         product.set('startDate',data.startDate)
          product.set('endDate',data.endDate)
           product.set('name',data.name)
@@ -49,6 +40,46 @@ export default{
                     
                 });
 
+    },
+    getProductList(successCallback,errorCallback){
+        var query = new AV.Query('Product')
+        query.find().then((data)=>{
+            var dataArray = []
+            for (var model of data){
+                  model.attributes.endDate=model.attributes.endDate.toISOString().slice(0,10)
+                model.attributes.startDate=model.attributes.startDate.toISOString().slice(0,10)
+                model.attributes.uid = model.id
+                dataArray.push(model.attributes)
+            }
+
+            successCallback(dataArray)
+        },(error)=>{
+            errorCallback(error)
+        })
+    },
+    deleteProductWithId(uid,successCallback,errorCallback){
+       var todo = AV.Object.createWithoutData('Product', uid);
+        todo.destroy().then( (success)=> {
+          successCallback() 
+        },  (error) =>{
+           errorCallback()
+        });
+    },
+    getUsers(successCallback,errorCallback){
+         var query = new AV.Query('_User')
+        query.find().then((data)=>{
+            var dataArray = []
+            for (var model of data){
+                model.attributes.uid = model.id
+                model.attributes.createdAt=model.createdAt.toISOString().slice(0,10)
+                model.attributes.updatedAt=model.updatedAt.toISOString().slice(0,10)
+                dataArray.push(model.attributes)
+            }
+            successCallback(dataArray)
+        },(error)=>{
+            
+            errorCallback(error)
+        })
     }
 
     }

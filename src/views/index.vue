@@ -52,7 +52,7 @@
                         <Menu-item name="1-1" >                        
                        发布产品
                         </Menu-item>
-                        <Menu-item name="1-2">选项 2</Menu-item>
+                        <Menu-item name="1-2">产品管理</Menu-item>
                         <Menu-item name="1-3">选项 3</Menu-item>
                     </Submenu>
                     <Submenu name="2">
@@ -60,16 +60,15 @@
                             <Icon type="ios-keypad"></Icon>
                           订单管理
                         </template>
-                        <Menu-item name="2-1">选项 1</Menu-item>
-                        <Menu-item name="2-2">选项 2</Menu-item>
+                        <Menu-item name="2-1">完成订单</Menu-item>
+                        <Menu-item name="2-2">未完成订单</Menu-item>
                     </Submenu>
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="ios-analytics"></Icon>
                             客户管理
                         </template>
-                        <Menu-item name="3-1">选项 1</Menu-item>
-                        <Menu-item name="3-2">选项 2</Menu-item>
+                        <Menu-item name="3-1">客户统计</Menu-item>
                     </Submenu>
                 </Menu>
             </i-col>
@@ -96,8 +95,9 @@ import uploadView from './upload'
         },
         methods:{
             jumpToUploadView(name){
-            console.log(name)
-            this.$router.push('./upload')
+            if(name == '1-1') this.$router.push('./upload')
+            if(name == '1-2') this.$router.push('./productManage')
+            if(name == '3-1') this.$router.push('./users')
             },
         }
     }

@@ -7,13 +7,13 @@ import Routers from './router';
 import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
-
+import network from './tools/network.js'
 
 Vue.use(VueRouter);
 
 
 Vue.use(iView);
-
+Vue.use(network)
 
 
 // 路由配置

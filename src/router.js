@@ -11,7 +11,24 @@ const routers = [{
                 title: '发布产品'
             },
             component: (resolve) => require(['./views/upload.vue'], resolve)
-    }]
+    },
+    {
+            path: '/productManage',
+            name: 'productManage',
+            meta: {
+                title: '产品管理'
+            },
+            component: (resolve) => require(['./views/productManage.vue'], resolve)
+    },
+    {
+            path: '/users',
+            name: 'users',
+            meta: {
+                title: '客户管理'
+            },
+            component: (resolve) => require(['./views/users.vue'], resolve)
+    },
+    ]
 }
 ];
 export default routers;
