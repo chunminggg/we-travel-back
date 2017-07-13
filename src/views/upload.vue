@@ -1,63 +1,63 @@
 <style scoped>
-.product{
-    margin-top:10px;
-}
-
+    .product {
+        margin-top: 10px;
+    }
 </style>
+
 <template>
-<div class="content">
-<h2>产品发布</h2>
-<Input v-model="productNumber" placeholder="产品编号" class="product"></Input>
-<Input v-model="productName" placeholder="产品名称" class="product" ></Input>
-<Input v-model="productPlace" placeholder="出发城市" class="product" ></Input>
-<Input v-model="productPrice" placeholder="产品价格" class="product" ></Input>
-<Input v-model="productDes" placeholder="产品描述" class="product" type="textarea" ></Input>
- <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
-        <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
-    </Select>
+    <div class="content">
+        <h2>产品发布</h2>
+        <Input v-model="productNumber" placeholder="产品编号" class="product"></Input>
+        <Input v-model="productName" placeholder="产品名称" class="product"></Input>
+        <Input v-model="productPlace" placeholder="出发城市" class="product"></Input>
+        <Input v-model="productPrice" placeholder="产品价格" class="product"></Input>
+        <Input v-model="productDes" placeholder="产品描述" class="product" type="textarea"></Input>
+        <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
+            <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
+        </Select>
     
-            <Date-picker v-model="productStartDate" class="product" type="date"  placeholder="选择出发日期" ></Date-picker>
-        
-            <Date-picker v-model="productEndDate" class="product" type="date"  placeholder="选择结束日期" ></Date-picker>
- 
-      <image-upload class="product" @send-image="getImageArray"></image-upload>     
+        <Date-picker v-model="productStartDate" class="product" type="date" placeholder="选择出发日期"></Date-picker>
+    
+        <Date-picker v-model="productEndDate" class="product" type="date" placeholder="选择结束日期"></Date-picker>
+    
+        <image-upload class="product" @send-image="getImageArray"></image-upload>
         <Button type="success" long @click="submitData">确认提交</Button>
-</div>
+    </div>
 </template>
+
 <script>
-import imageUpload from './imageUpload'
-import network from '../tools/network.js'
-    export default{
-        components:{
-          imageUpload  
+    import imageUpload from './imageUpload'
+    import network from '../tools/network.js'
+    export default {
+        components: {
+            imageUpload
         },
-        data(){
-        return {
-            //产品编号
-            productNumber:'',
-            //产品名称
-            productName:'',
-            //产品描述
-            productDes: '',
-            //产品价格
-            productPrice:'',
-            // 出发城市
-            productPlace:'',
-            productStartDate:'',
-            productEndDate:'',
-            //日期格式设置
-            dateOption1:{
-                 disabledDate (date) {
-                        return date && date.valueOf() < Date.now() - 86400000
-                    }
-            },
-             dateOption2: {
-                    disabledDate (date) {
+        data() {
+            return {
+                //产品编号
+                productNumber: '',
+                //产品名称
+                productName: '',
+                //产品描述
+                productDes: '',
+                //产品价格
+                productPrice: '',
+                // 出发城市
+                productPlace: '',
+                productStartDate: '',
+                productEndDate: '',
+                //日期格式设置
+                dateOption1: {
+                    disabledDate(date) {
                         return date && date.valueOf() < Date.now() - 86400000
                     }
                 },
-            productTypes: [
-                    {
+                dateOption2: {
+                    disabledDate(date) {
+                        return date && date.valueOf() < Date.now() - 86400000
+                    }
+                },
+                productTypes: [{
                         value: 1,
                         label: '巴厘岛'
                     },
@@ -83,40 +83,39 @@ import network from '../tools/network.js'
                     }
                 ],
                 productTypeSelected: '',
-                imageArray : [],
-                
-        }
+                imageArray: [],
+    
+            }
         },
-        methods:{
-            getImageArray(data){
-                
-
+        methods: {
+            getImageArray(data) {
+    
+    
                 this.imageArray = data
             },
-            submitData(){
+            submitData() {
                 var _self = this
                 var dict = {
-                    startDate:_self.productStartDate,
-                    endDate:_self.productEndDate,
-                    name:_self.productName,
-                    describe:_self.productDes,
-                    type:_self.productTypeSelected,
-                    place:_self.productPlace,
-                    onleyId:_self.productNumber,
-                    price:_self.productPrice,
-                    imageArray:_self.imageArray
+                    startDate: _self.productStartDate,
+                    endDate: _self.productEndDate,
+                    name: _self.productName,
+                    describe: _self.productDes,
+                    type: _self.productTypeSelected,
+                    place: _self.productPlace,
+                    onleyId: _self.productNumber,
+                    price: _self.productPrice,
+                    imageArray: _self.imageArray
                 }
-                
-                network.uploadProdut(dict,function(){
-                     _self.$Message.success('上传成功');
-                    setTimeout(function(){
-                    _self.$router.go(0)
-                   },1000)
+    
+                network.uploadProdut(dict, function() {
+                    _self.$Message.success('上传成功');
+                    setTimeout(function() {
+                        _self.$router.go(0)
+                    }, 1000)
                 })
             }
         }
     }
-    
 </script>
 
 
