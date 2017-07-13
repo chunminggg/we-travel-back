@@ -46,7 +46,7 @@ export default{
         query.find().then((data)=>{
             var dataArray = []
             for (var model of data){
-                  model.attributes.endDate=model.attributes.endDate.toISOString().slice(0,10)
+                model.attributes.endDate=model.attributes.endDate.toISOString().slice(0,10)
                 model.attributes.startDate=model.attributes.startDate.toISOString().slice(0,10)
                 model.attributes.uid = model.id
                 dataArray.push(model.attributes)

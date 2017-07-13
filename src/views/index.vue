@@ -53,7 +53,7 @@
                        发布产品
                         </Menu-item>
                         <Menu-item name="1-2">产品管理</Menu-item>
-                        <Menu-item name="1-3">选项 3</Menu-item>
+                        <Menu-item name="1-3">主题发布</Menu-item>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
@@ -98,6 +98,7 @@ import uploadView from './upload'
             if(name == '1-1') this.$router.push('./upload')
             if(name == '1-2') this.$router.push('./productManage')
             if(name == '3-1') this.$router.push('./users')
+            if(name == '1-3') this.$router.push('./theme')
             },
         }
     }
