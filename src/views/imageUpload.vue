@@ -56,11 +56,11 @@
             <p>点击或将文件拖拽到这里上传</p>
         </div>
     </Upload>
-<div class="demo-upload-list" v-for="item in uploadList">
+<div class="demo-upload-list" v-for="(item,index) in uploadList">
             <img :src="item.url">
             <div class="demo-upload-list-cover">
                 <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                <Icon type="ios-trash-outline" @click.native="handleRemove(item,index)"></Icon>
             </div>
     </div>
 </div>
@@ -69,23 +69,24 @@
 <script>
 import network from '../tools/network.js'
 export default{
-    
+    props:['uploadList'],
     data(){
         return {
-            uploadList:[],
+            // uploadList:[],
             visible:false,
             imgName:'',
         }
+    },
+    created(){
     },
     methods:{
         handleView (name) {
                 this.imgName = name;
                 this.visible = true;
             },
-            handleRemove (file) {
+            handleRemove (file,index) {
                 // 从 upload 实例删除数据
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+              this.uploadList.splice(index,1)
             },
             handleSuccess (res, file) {
                

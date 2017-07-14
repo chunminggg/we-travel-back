@@ -20,7 +20,7 @@
     
         <Date-picker v-model="productEndDate" class="product" type="date" placeholder="选择结束日期"></Date-picker>
     
-        <image-upload class="product" @send-image="getImageArray"></image-upload>
+        <image-upload class="product" @send-image="getImageArray" :uploadList="imageArray"></image-upload>
         <Button type="success" long @click="submitData">确认提交</Button>
     </div>
 </template>
@@ -34,6 +34,7 @@
         },
         data() {
             return {
+                productId:'',
                 //产品编号
                 productNumber: '',
                 //产品名称
@@ -86,6 +87,23 @@
                 imageArray: [],
     
             }
+        },
+        created(){
+            var _self = this
+            _self.productId = this.$route.params.productId
+            network.getTodoDetail(_self.productId,'Product',(data)=>{
+                _self.productNumber = data.onleyId
+                _self.productPlace = data.place
+                _self.productDes = data.describe
+                _self.productName = data.name
+                _self.productPrice = data.price
+                _self.imageArray  = data.imageArray
+                _self.productStartDate = data.startDate
+                _self.productEndDate = data.endDate
+                _self.productTypeSelected = data.type
+            },(error)=>{
+                _self.$Message.error('获取信息失败,请重试')
+            })
         },
         methods: {
             getImageArray(data) {

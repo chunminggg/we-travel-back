@@ -52,6 +52,15 @@ export default {
            errorCallback()
       })
     },
+    getTodoDetail(uid,className,successCallback,errorCallback){
+         var query = new AV.Query(className);
+  query.get(uid).then(function (todo) {
+      todo.id = todo.attributes.productId 
+      successCallback(todo.attributes)
+  }, function (error) {
+      errorCallback(error)
+  });
+    },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product')
         query.find().then((data) => {

@@ -2,11 +2,11 @@
 </style>
 <template>
 <div class="content">
-<Table height="200" :columns="columns" :data="dataArray"></Table>
+<Table height="500" :columns="columns" :data="dataArray"></Table>
     <Modal
         v-model="modal1"
         title="删除操作"
-        @on-ok="deleteProduct">
+        @on-ok="removeProdcut">
         <p>确认将编号为{{productNumber}}的产品删除吗</p>
     </Modal>
       
@@ -95,7 +95,8 @@ export default{
         },
         //修改
         modfifyProduct(params){
-            
+            let productId = params.row.uid
+            this.$router.push({name:'upload',params:{'productId':productId}})
         },
         //删除
         deleteProduct(params){
@@ -106,9 +107,14 @@ export default{
         removeProdcut(uid){
             var _self = this
             network.deleteProductWithId(this.uid,()=>{
-                this.modal1 = false
-                _self.$Message.title('删除成功')
+                
+                // _self.modal1 = false
+                // _self.$Message.title('删除成功')
+                
                 _self.configData()
+                
+                
+                
             })
         },
     },

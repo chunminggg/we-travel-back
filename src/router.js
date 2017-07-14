@@ -5,7 +5,7 @@ const routers = [{
     },
     component: (resolve) => require(['./views/index.vue'], resolve),
     children: [{
-            path: '/upload',
+            path: '/upload/:productId',
             name: 'upload',
             meta: {
                 title: '发布产品'

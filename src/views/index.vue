@@ -95,7 +95,7 @@ import uploadView from './upload'
         },
         methods:{
             jumpToUploadView(name){
-            if(name == '1-1') this.$router.push('./upload')
+            if(name == '1-1') this.$router.push({ name: 'upload'})
             if(name == '1-2') this.$router.push('./productManage')
             if(name == '3-1') this.$router.push('./users')
             if(name == '1-3') this.$router.push('./theme')
