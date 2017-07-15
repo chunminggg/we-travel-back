@@ -18,10 +18,15 @@ export default {
             console.error(error);
         });
     },
-    uploadProdut(data, successCallback) {
-
+    uploadProdut(uid, data, successCallback) {
+        
         var Product = AV.Object.extend('Product')
         var product = new Product()
+        if (uid != undefined && uid != 'new') {
+            debugger
+            product = AV.Object.createWithoutData('Product',uid)
+        }
+        
         product.set('startDate', data.startDate)
         product.set('endDate', data.endDate)
         product.set('name', data.name)
@@ -53,6 +58,9 @@ export default {
       })
     },
     getTodoDetail(uid,className,successCallback,errorCallback){
+        if (uid == undefined || uid == 'new') {
+            return
+        }
          var query = new AV.Query(className);
   query.get(uid).then(function (todo) {
       todo.id = todo.attributes.productId 
@@ -84,6 +92,10 @@ export default {
         }, (error) => {
             errorCallback()
         });
+    },
+    updateProductWithObjectId(uid,dict,successCallback,errorCallback){
+    var todo = AV.Object.createWithoutData('Product',uid)
+
     },
     getUsers(successCallback, errorCallback) {
         var query = new AV.Query('_User')

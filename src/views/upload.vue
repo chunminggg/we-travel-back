@@ -125,8 +125,8 @@
                     imageArray: _self.imageArray
                 }
     
-                network.uploadProdut(dict, function() {
-                    _self.$Message.success('上传成功');
+                network.uploadProdut(_self.productId,dict, function() {
+                    _self.$Message.success('保存成功');
                     setTimeout(function() {
                         _self.$router.go(0)
                     }, 1000)
