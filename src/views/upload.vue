@@ -99,6 +99,7 @@
             var _self = this
             _self.productId = this.$route.params.productId
             network.getTodoDetail(_self.productId,'Product',(data)=>{
+                _self.richItems = data.detailContent
                 _self.productNumber = data.onleyId
                 _self.productPlace = data.place
                 _self.productDes = data.describe
@@ -121,8 +122,6 @@
             },
             submitData() {
                 var _self = this
-                debugger
-                return
                 var dict = {
                     startDate: _self.productStartDate,
                     endDate: _self.productEndDate,
@@ -132,7 +131,8 @@
                     place: _self.productPlace,
                     onleyId: _self.productNumber,
                     price: _self.productPrice,
-                    imageArray: _self.imageArray
+                    imageArray: _self.imageArray,
+                    detailContent:_self.richItems
                 }
     
                 network.uploadProdut(_self.productId,dict, function() {

@@ -24,6 +24,11 @@ export default {
         content:this.richContent.content,
       }
     },
+    watch:{
+        richContent(newVal,oldVal){
+            this.content = newVal.content
+        }
+    },
     methods: {
       richTextChange(editor, html, text){
          this.$emit('send-text',{'content':this.content,'index':this.richIndex})

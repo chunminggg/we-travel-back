@@ -36,7 +36,7 @@ export default {
         product.set('onleyId', data.onleyId)
         product.set('price', data.price)
         product.set('imageArray', data.imageArray)
-
+        product.set('detailContent',data.detailContent)
         product.save().then(function(todo) {
             return successCallback()
 
