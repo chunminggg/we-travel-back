@@ -21,19 +21,26 @@
         <Date-picker v-model="productEndDate" class="product" type="date" placeholder="选择结束日期"></Date-picker>
     
         <image-upload class="product" @send-image="getImageArray" :uploadList="imageArray"></image-upload>
-        <Button type="success" long @click="submitData">确认提交</Button>
+        <div v-for="(richItem, index) in richItems" class="product">
+        <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
+        </div>
+    
+        <Button type="success" long @click="submitData" class="product">确认提交</Button>
     </div>
 </template>
 
 <script>
     import imageUpload from './imageUpload'
     import network from '../tools/network.js'
+    import richEditor from './richEditor'
     export default {
         components: {
-            imageUpload
+            imageUpload,
+            richEditor,
         },
         data() {
             return {
+                richItems:[{content:'',placeHolder:"线路特色"},{content:'',placeHolder:"行程介绍"},{content:'',placeHolder:"费用说明"},{content:'',placeHolder:"预订须知"},],
                 productId:'',
                 //产品编号
                 productNumber: '',
@@ -106,13 +113,16 @@
             })
         },
         methods: {
+            getRichTextArray(data){
+               this.richItems[data.index].content = data.content
+            },
             getImageArray(data) {
-    
-    
                 this.imageArray = data
             },
             submitData() {
                 var _self = this
+                debugger
+                return
                 var dict = {
                     startDate: _self.productStartDate,
                     endDate: _self.productEndDate,

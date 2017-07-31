@@ -8,13 +8,13 @@ import Util from './libs/util';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import network from './tools/network.js'
-
+import VueQuillEditor from 'vue-quill-editor'
 Vue.use(VueRouter);
 
 
 Vue.use(iView);
 Vue.use(network)
-
+Vue.use(VueQuillEditor)
 
 // 路由配置
 const RouterConfig = {
