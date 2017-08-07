@@ -10,23 +10,55 @@ export default {
         var name = file.name,
             dataFile = new AV.File(name, file);
 
-        dataFile.save().then(function(file) {
+        dataFile.save().then(function (file) {
             // 文件保存成功
+
             return successCallback(file)
-        }, function(error) {
+        }, function (error) {
+
             // 异常处理
             console.error(error);
         });
     },
+    //首页滚动视图获取
+    getMainScroll(successCallback){
+        var query = new AV.Query('MainScroll')
+        query.descending('createdAt')
+        query.find().then((data) => {
+            var dataArray = []
+            for (var model of data) {
+                dataArray.push(model.attributes)
+            }
+
+            successCallback(dataArray)
+        }, (error) => {
+            errorCallback(error)
+        })
+    },
+    //首页滚动视图上传
+    uploadMainScroll(data, successCallback) {
+        var Product = AV.Object.extend('MainScroll')
+        var product = new Product()
+
+        if (data.imageArray.length) {
+            product.set('imageArray', data.imageArray)
+            product.save().then((todo) => {
+
+                return successCallback(todo)
+            }, (error) => {
+
+            })
+        }
+    },
     uploadProdut(uid, data, successCallback) {
-        
+
         var Product = AV.Object.extend('Product')
         var product = new Product()
         if (uid != undefined && uid != 'new') {
-            debugger
-            product = AV.Object.createWithoutData('Product',uid)
+
+            product = AV.Object.createWithoutData('Product', uid)
         }
-        
+
         product.set('startDate', data.startDate)
         product.set('endDate', data.endDate)
         product.set('name', data.name)
@@ -36,38 +68,38 @@ export default {
         product.set('onleyId', data.onleyId)
         product.set('price', data.price)
         product.set('imageArray', data.imageArray)
-        product.set('detailContent',data.detailContent)
-        product.save().then(function(todo) {
+        product.set('detailContent', data.detailContent)
+        product.save().then(function (todo) {
             return successCallback()
 
-        }, function(error) {
+        }, function (error) {
 
         });
 
     },
-     uploadTheme(dict, successCallback, errorCallback) {
-      var Theme = AV.Object.extend('Theme')  
-      var theme = new Theme()
-      theme.set('name',dict.name)
-      theme.set('brief',dict.brief)
-      theme.set('imageArray',dict.imageArray)
-      theme.save().then((todo)=>{
-           successCallback()
-      },(error)=>{
-           errorCallback()
-      })
+    uploadTheme(dict, successCallback, errorCallback) {
+        var Theme = AV.Object.extend('Theme')
+        var theme = new Theme()
+        theme.set('name', dict.name)
+        theme.set('brief', dict.brief)
+        theme.set('imageArray', dict.imageArray)
+        theme.save().then((todo) => {
+            successCallback()
+        }, (error) => {
+            errorCallback()
+        })
     },
-    getTodoDetail(uid,className,successCallback,errorCallback){
+    getTodoDetail(uid, className, successCallback, errorCallback) {
         if (uid == undefined || uid == 'new') {
             return
         }
-         var query = new AV.Query(className);
-  query.get(uid).then(function (todo) {
-      todo.id = todo.attributes.productId 
-      successCallback(todo.attributes)
-  }, function (error) {
-      errorCallback(error)
-  });
+        var query = new AV.Query(className);
+        query.get(uid).then(function (todo) {
+            todo.id = todo.attributes.productId
+            successCallback(todo.attributes)
+        }, function (error) {
+            errorCallback(error)
+        });
     },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product')
@@ -93,8 +125,8 @@ export default {
             errorCallback()
         });
     },
-    updateProductWithObjectId(uid,dict,successCallback,errorCallback){
-    var todo = AV.Object.createWithoutData('Product',uid)
+    updateProductWithObjectId(uid, dict, successCallback, errorCallback) {
+        var todo = AV.Object.createWithoutData('Product', uid)
 
     },
     getUsers(successCallback, errorCallback) {
@@ -114,5 +146,5 @@ export default {
         })
     },
 
-   
+
 }

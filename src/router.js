@@ -28,6 +28,14 @@ const routers = [{
             },
             component: (resolve) => require(['./views/users.vue'], resolve)
         },
+         {
+            path: '/mainScroll',
+            name: 'mainScroll',
+            meta: {
+                title: '首页管理'
+            },
+            component: (resolve) => require(['./views/mainScroll.vue'], resolve)
+        },
         {
             path: '/theme',
             name: 'theme',

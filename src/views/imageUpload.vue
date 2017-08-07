@@ -108,9 +108,12 @@ export default{
             },
             handleBeforeUpload (file) {
                 var _self = this
+                
                 network.uploadImage(file,function(data){
+                    
                     _self.uploadList.push({url:data.attributes.url})
                     _self.$emit('send-image',_self.uploadList)
+                
                 })
                 return false
             }
