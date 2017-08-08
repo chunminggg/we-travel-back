@@ -28,6 +28,14 @@ const routers = [{
             },
             component: (resolve) => require(['./views/users.vue'], resolve)
         },
+        {
+            path: '/reserveList',
+            name: 'reserveList',
+            meta: {
+                title: '未完成订单'
+            },
+            component: (resolve) => require(['./views/reserveList.vue'], resolve)
+        },
          {
             path: '/mainScroll',
             name: 'mainScroll',

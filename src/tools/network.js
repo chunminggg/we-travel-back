@@ -89,6 +89,31 @@ export default {
             errorCallback()
         })
     },
+    //获取未完成订单
+    getUnReserveList(successCallback,errorCallback){
+        var query = new AV.Query('OrderItem')
+        query.descending('createdAt')
+        query.include('targetItem')
+        query.include('targetItem.name')
+        query.include('targetItem.onleyId')
+        query.find().then((todos)=>{
+             var dataArray = []
+            if (todos.length) {
+                todos.forEach(function(obj) {
+                    let myObj = {}
+                    myObj.name = obj.attributes.name
+                    myObj.phoneNumber = obj.attributes.phoneNumber
+                    myObj.peopleCount = obj.attributes.peopleCount
+                    myObj.productName = obj.attributes.targetItem.attributes.name
+                    myObj.productNumber = obj.attributes.targetItem.attributes.onleyId
+                    dataArray.push(myObj)
+                }, this);
+            }
+            return successCallback(dataArray)
+        },(error)=>{
+            return errorCallback(error)
+        })
+    },
     getTodoDetail(uid, className, successCallback, errorCallback) {
         if (uid == undefined || uid == 'new') {
             return
