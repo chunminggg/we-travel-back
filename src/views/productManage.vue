@@ -39,10 +39,6 @@ export default{
                         
                     },
                     {
-                        title: '结束时间',
-                        key: 'endDate'
-                    },
-                    {
                         title: '操作',
                         key: 'action',
                         width: 150,
