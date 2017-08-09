@@ -59,7 +59,7 @@ export default {
         }
 
         product.set('startDate', data.startDate)
-        product.set('endDate', data.endDate)
+        // product.set('endDate', data.endDate)
         product.set('name', data.name)
         product.set('describe', data.describe)
         product.set('type', data.type)

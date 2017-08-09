@@ -13,7 +13,6 @@
         <Input v-model="productPrice" placeholder="产品价格" class="product"></Input>
         <Input v-model="productDes" placeholder="产品描述" class="product" type="textarea"></Input>
         <Input v-model="productStartDate" placeholder="开始时间" class="product" type="textarea"></Input>
-        <Input v-model="productEndDate" placeholder="结束时间" class="product" type="textarea"></Input>
     
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
@@ -105,8 +104,8 @@ export default {
             _self.productName = data.name
             _self.productPrice = data.price
             _self.imageArray = data.imageArray
-            _self.productStartDate = '开始时间'
-            _self.productEndDate = '结束时间'
+            _self.productStartDate = data.startDate
+            // _self.productEndDate = data.endDate
             _self.productTypeSelected = data.type
         }, (error) => {
             _self.$Message.error('获取信息失败,请重试')
@@ -123,7 +122,7 @@ export default {
             var _self = this
             var dict = {
                 startDate: _self.productStartDate,
-                endDate: _self.productEndDate,
+                // endDate: _self.productEndDate,
                 name: _self.productName,
                 describe: _self.productDes,
                 type: _self.productTypeSelected,
