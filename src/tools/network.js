@@ -51,7 +51,6 @@ export default {
         }
     },
     uploadProdut(uid, data, successCallback) {
-
         var Product = AV.Object.extend('Product')
         var product = new Product()
         if (uid != undefined && uid != 'new') {
@@ -73,7 +72,7 @@ export default {
             return successCallback()
 
         }, function (error) {
-
+            debugger
         });
 
     },
@@ -128,17 +127,20 @@ export default {
     },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product')
+        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray'])
         query.find().then((data) => {
+            
             var dataArray = []
             for (var model of data) {
-                model.attributes.endDate = model.attributes.endDate.toISOString().slice(0, 10)
-                model.attributes.startDate = model.attributes.startDate.toISOString().slice(0, 10)
+                // model.attributes.endDate = model.attributes.endDate.toISOString().slice(0, 10)
+                // model.attributes.startDate = model.attributes.startDate.toISOString().slice(0, 10)
                 model.attributes.uid = model.id
                 dataArray.push(model.attributes)
             }
 
             successCallback(dataArray)
         }, (error) => {
+            
             errorCallback(error)
         })
     },
