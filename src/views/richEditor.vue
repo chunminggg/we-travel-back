@@ -3,6 +3,7 @@
 </style>
 <template>
   <div>
+  
      <quill-editor ref="richContent"
                     :options="editorOption"
                     v-model="content"

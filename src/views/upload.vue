@@ -105,6 +105,7 @@ export default {
             _self.productPrice = data.price
             _self.imageArray = data.imageArray
             _self.productStartDate = data.startDate
+
             // _self.productEndDate = data.endDate
             _self.productTypeSelected = data.type
         }, (error) => {
