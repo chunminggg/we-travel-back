@@ -6,6 +6,9 @@ AV.init({
     appKey: APP_KEY
 });
 export default {
+    userLogin(dict) {
+        return AV.User.logInWithMobilePhone(dict.phoneNumber, dict.password)
+    },
     uploadImage(file, successCallback) {
         var name = file.name,
             dataFile = new AV.File(name, file);
@@ -21,7 +24,7 @@ export default {
         });
     },
     //首页滚动视图获取
-    getMainScroll(successCallback){
+    getMainScroll(successCallback) {
         var query = new AV.Query('MainScroll')
         query.descending('createdAt')
         query.find().then((data) => {
@@ -89,16 +92,16 @@ export default {
         })
     },
     //获取未完成订单
-    getUnReserveList(successCallback,errorCallback){
+    getUnReserveList(successCallback, errorCallback) {
         var query = new AV.Query('OrderItem')
         query.descending('createdAt')
         query.include('targetItem')
         query.include('targetItem.name')
         query.include('targetItem.onleyId')
-        query.find().then((todos)=>{
-             var dataArray = []
+        query.find().then((todos) => {
+            var dataArray = []
             if (todos.length) {
-                todos.forEach(function(obj) {
+                todos.forEach(function (obj) {
                     let myObj = {}
                     myObj.name = obj.attributes.name
                     myObj.phoneNumber = obj.attributes.phoneNumber
@@ -109,7 +112,7 @@ export default {
                 }, this);
             }
             return successCallback(dataArray)
-        },(error)=>{
+        }, (error) => {
             return errorCallback(error)
         })
     },
@@ -129,7 +132,7 @@ export default {
         var query = new AV.Query('Product')
         query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray'])
         query.find().then((data) => {
-            
+
             var dataArray = []
             for (var model of data) {
                 // model.attributes.endDate = model.attributes.endDate.toISOString().slice(0, 10)
@@ -140,7 +143,7 @@ export default {
 
             successCallback(dataArray)
         }, (error) => {
-            
+
             errorCallback(error)
         })
     },
