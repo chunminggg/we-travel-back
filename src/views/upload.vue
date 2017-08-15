@@ -86,6 +86,18 @@ export default {
             {
                 value: 6,
                 label: '长滩岛'
+            },
+            {
+                value: 7,
+                label: '帕劳'
+            },
+            {
+                value: 8,
+                label: '大溪地'
+            },
+            {
+                value: 9,
+                label: '苏梅岛'
             }
             ],
             productTypeSelected: '',

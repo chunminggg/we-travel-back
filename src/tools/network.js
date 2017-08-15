@@ -9,6 +9,9 @@ export default {
     userLogin(dict) {
         return AV.User.logInWithMobilePhone(dict.phoneNumber, dict.password)
     },
+    getThemelist(){
+        
+    },
     uploadImage(file, successCallback) {
         var name = file.name,
             dataFile = new AV.File(name, file);
