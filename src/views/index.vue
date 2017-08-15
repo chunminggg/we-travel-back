@@ -62,6 +62,7 @@
                         <Menu-item name="1-2">产品管理</Menu-item>
                         <Menu-item name="1-3">主题发布</Menu-item>
                         <Menu-item name="1-4">首页管理</Menu-item>
+                         <Menu-item name="1-5">主题管理</Menu-item>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
@@ -106,10 +107,11 @@ export default {
             // debugger
             if (name == '1-1') this.$router.push({ path: '/upload', name: 'upload', params: { 'productId': 'new' } })
             if (name == '1-2') this.$router.push('/productManage')
-            if (name == '3-1') this.$router.push('/users')
             if (name == '1-3') this.$router.push('/theme')
             if (name == '1-4') this.$router.push('/mainScroll')
+            if (name == '1-5') this.$router.push('/themeManage')
             if (name == '2-2') this.$router.push('/reserveList')
+            if (name == '3-1') this.$router.push('/users')
         },
     }
 }

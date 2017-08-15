@@ -58,6 +58,14 @@ const routers = [{
             },
             component: (resolve) => require(['./views/theme.vue'], resolve)
         },
+        {
+            path: '/themeManage',
+            name: 'themeManage',
+            meta: {
+                title: '主题管理'
+            },
+            component: (resolve) => require(['./views/themeManage.vue'], resolve)
+        },
     ]
 }];
 export default routers;

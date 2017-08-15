@@ -1,4 +1,6 @@
 import AV from 'leancloud-storage';
+import moment from 'moment'
+moment.locale('zh-cn')
 var APP_ID = 'qDUQr0EmHHn3HOIqb3Re0IHa-gzGzoHsz';
 var APP_KEY = 'w2TRHW0KHUkt5mVHtgp9wa2s';
 AV.init({
@@ -10,7 +12,9 @@ export default {
         return AV.User.logInWithMobilePhone(dict.phoneNumber, dict.password)
     },
     getThemelist(){
-        
+        var query = new AV.Query('Theme')
+        query.descending('createdAt')
+         return query.find()
     },
     uploadImage(file, successCallback) {
         var name = file.name,
@@ -111,6 +115,8 @@ export default {
                     myObj.peopleCount = obj.attributes.peopleCount
                     myObj.productName = obj.attributes.targetItem.attributes.name
                     myObj.productNumber = obj.attributes.targetItem.attributes.onleyId
+                    myObj.createdAt = moment(obj.createdAt.toISOString()).format('LLLL');
+                    
                     dataArray.push(myObj)
                 }, this);
             }

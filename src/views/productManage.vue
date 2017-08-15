@@ -104,13 +104,7 @@ export default{
             var _self = this
             network.deleteProductWithId(this.uid,()=>{
                 
-                // _self.modal1 = false
-                // _self.$Message.title('删除成功')
-                
                 _self.configData()
-                
-                
-                
             })
         },
     },

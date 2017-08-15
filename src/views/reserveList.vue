@@ -22,6 +22,10 @@ export default {
                     key: 'phoneNumber'
                 },
                 {
+                    title: '提交时间',
+                    key: 'createdAt'
+                },
+                {
                     title: '产品编号',
                     key: 'productNumber',
 
@@ -35,13 +39,13 @@ export default {
 
         }
     },
-    created(){
+    created() {
         var _self = this
-        network.getUnReserveList((data)=>{
-            if(data.length)
-            _self.dataArray = data
-            
-        },(error)=>{
+        network.getUnReserveList((data) => {
+            if (data.length)
+                _self.dataArray = data
+
+        }, (error) => {
 
         })
     },
