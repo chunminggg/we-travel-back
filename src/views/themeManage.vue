@@ -14,6 +14,7 @@
 </template>
 <script>
 import network from '../tools/network.js'
+import moment from 'moment'
 export default{
     data(){
         return {
@@ -81,11 +82,12 @@ export default{
             
         var _self = this
         network.getThemelist().then(data=>{
+
             data.forEach(obj=>{
                 let dict = {
                 name:obj.attributes.name,
                 briefInfo:obj.attributes.brief,
-                updateDate:obj.updatedAt,
+                updateDate:moment(obj.updatedAt.toISOString()).format('LLLL'),
                 onlyId:obj.id
             }
             _self.dataArray.push(dict)
@@ -96,10 +98,11 @@ export default{
         },
         //修改
         modfifyProduct(params){
-             this.$Message.error('您没有权限')
-            return
+            //  this.$Message.error('您没有权限')
+            // return
             let productId = params.row.onlyId
-            this.$router.push({name:'upload',params:{'productId':productId}})
+
+            this.$router.push({name:'theme',params:{'productId':productId}})
         },
         //删除
         deleteProduct(params){

@@ -26,7 +26,19 @@
                 themeName: '',
                 themeBrief: '',
                 imageArray: [],
+                onlyId:''
+            }
+        },
+        created(){
+            var _self = this
 
+            if(this.$route.params.productId != undefined){
+                _self.onlyId = this.$route.params.productId
+                network.getDetailThemm(_self.onlyId).then(data=>{
+                    _self.themeName = data.attributes.name
+                    _self.themeBrief = data.attributes.brief
+                    _self.imageArray = data.attributes.imageArray
+                })
             }
         },
         methods:{
@@ -39,7 +51,8 @@
             var dict = {
                 'name': _self.themeName,
                 'brief':_self.themeBrief,
-                'imageArray':_self.imageArray
+                'imageArray':_self.imageArray,
+                'onlyId':_self.onlyId
             }
             network.uploadTheme(dict,(data)=>{
             _self.$Message.success('上传成功')

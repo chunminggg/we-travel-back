@@ -108,6 +108,14 @@ export default {
     created() {
         var _self = this
         _self.productId = this.$route.params.productId
+        network.getThemelist().then(data=>{
+            if(data.length) {
+                _self.productTypes = []
+                data.forEach(obj=>{
+                    _self.productTypes.push({label:obj.attributes.name,value:obj.attributes.type})
+                })
+            }
+        })
         network.getTodoDetail(_self.productId, 'Product', (data) => {
             _self.richItems = data.detailContent
             _self.productNumber = data.onleyId

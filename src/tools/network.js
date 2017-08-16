@@ -11,10 +11,10 @@ export default {
     userLogin(dict) {
         return AV.User.logInWithMobilePhone(dict.phoneNumber, dict.password)
     },
-    getThemelist(){
+    getThemelist() {
         var query = new AV.Query('Theme')
-        query.descending('createdAt')
-         return query.find()
+        query.ascending('type')
+        return query.find()
     },
     uploadImage(file, successCallback) {
         var name = file.name,
@@ -89,14 +89,26 @@ export default {
     uploadTheme(dict, successCallback, errorCallback) {
         var Theme = AV.Object.extend('Theme')
         var theme = new Theme()
+        var themeCount = new AV.Query('Theme')
+        let mySign = false
+        if (dict.onlyId.length) {
+            theme = AV.Object.createWithoutData('Theme',dict.onlyId)
+            mySign = true
+        }
         theme.set('name', dict.name)
         theme.set('brief', dict.brief)
         theme.set('imageArray', dict.imageArray)
-        theme.save().then((todo) => {
+        themeCount.count().then(count => {
+            if (!mySign) {
+                theme.set('type', count + 1)
+            }
+            return theme.save()
+        }).then((todo) => {
             successCallback()
         }, (error) => {
             errorCallback()
         })
+
     },
     //获取未完成订单
     getUnReserveList(successCallback, errorCallback) {
@@ -116,7 +128,7 @@ export default {
                     myObj.productName = obj.attributes.targetItem.attributes.name
                     myObj.productNumber = obj.attributes.targetItem.attributes.onleyId
                     myObj.createdAt = moment(obj.createdAt.toISOString()).format('LLLL');
-                    
+
                     dataArray.push(myObj)
                 }, this);
             }
@@ -124,6 +136,13 @@ export default {
         }, (error) => {
             return errorCallback(error)
         })
+    },
+    //获取单个主题详情
+    getDetailThemm(onlyId){
+    let query = new AV.Query('Theme')
+    
+    return query.get(onlyId)
+
     },
     getTodoDetail(uid, className, successCallback, errorCallback) {
         if (uid == undefined || uid == 'new') {
@@ -174,8 +193,9 @@ export default {
             var dataArray = []
             for (var model of data) {
                 model.attributes.uid = model.id
-                model.attributes.createdAt = model.createdAt.toISOString().slice(0, 10)
-                model.attributes.updatedAt = model.updatedAt.toISOString().slice(0, 10)
+
+                model.attributes.createdAt = moment(model.createdAt.toISOString()).format('LLLL')
+                model.attributes.updatedAt = moment(model.updatedAt.toISOString()).format('LLLL')
                 dataArray.push(model.attributes)
             }
             successCallback(dataArray)
