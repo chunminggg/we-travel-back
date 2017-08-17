@@ -86,13 +86,22 @@ export default {
         });
 
     },
+    // 置顶项目
+    setFirstProduct(uid) {
+
+        let todo = AV.Object.createWithoutData('Product', uid)
+        todo.set('isSort', true)
+        return todo.save()
+
+
+    },
     uploadTheme(dict, successCallback, errorCallback) {
         var Theme = AV.Object.extend('Theme')
         var theme = new Theme()
         var themeCount = new AV.Query('Theme')
         let mySign = false
         if (dict.onlyId.length) {
-            theme = AV.Object.createWithoutData('Theme',dict.onlyId)
+            theme = AV.Object.createWithoutData('Theme', dict.onlyId)
             mySign = true
         }
         theme.set('name', dict.name)
@@ -138,10 +147,10 @@ export default {
         })
     },
     //获取单个主题详情
-    getDetailThemm(onlyId){
-    let query = new AV.Query('Theme')
-    
-    return query.get(onlyId)
+    getDetailThemm(onlyId) {
+        let query = new AV.Query('Theme')
+
+        return query.get(onlyId)
 
     },
     getTodoDetail(uid, className, successCallback, errorCallback) {
