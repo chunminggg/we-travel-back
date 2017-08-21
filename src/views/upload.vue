@@ -19,8 +19,8 @@
         </Select>
     
         <image-upload class="product" @send-image="getImageArray" :uploadList="imageArray"></image-upload>
-        <div v-for="(richItem, index) in richItems" class="product">
-            <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
+        <div v-for="(richItem, index) in richItems" class="myProduct">
+             <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
         </div>
     
         <Button type="success" long @click="submitData" class="product">确认提交</Button>
@@ -31,14 +31,20 @@
 import imageUpload from './imageUpload'
 import network from '../tools/network.js'
 import richEditor from './richEditor'
+
 export default {
     components: {
         imageUpload,
         richEditor,
+       
     },
     data() {
         return {
             richItems: [{ content: '', placeHolder: "线路特色" }, { content: '', placeHolder: "行程介绍" }, { content: '', placeHolder: "费用说明" }, { content: '', placeHolder: "预订须知" },],
+            firstItem: {content: '', placeHolder: "线路特色" },
+            secondItem:{ content: '', placeHolder: "行程介绍" },
+            thirdItem:{ content: '', placeHolder: "费用说明" },
+            fourthItem:{ content: '', placeHolder: "预订须知" },
             productId: '',
             //产品编号
             productNumber: '',
