@@ -2,24 +2,44 @@
 .product {
     margin-top: 10px;
 }
+.myAlert{
+    margin-top:30px;
+}
+.imageUpload{
+    margin-bottom: 30px
+}
 </style>
 
 <template>
     <div class="content">
         <h2>产品发布</h2>
-        <Input v-model="productNumber" placeholder="产品编号" class="product"></Input>
-        <Input v-model="productName" placeholder="产品名称" class="product"></Input>
-        <Input v-model="productPlace" placeholder="出发城市" class="product"></Input>
-        <Input v-model="productPrice" placeholder="产品价格" class="product"></Input>
-        <Input v-model="productDes" placeholder="产品描述" class="product" type="textarea"></Input>
-        <Input v-model="productStartDate" placeholder="开始时间" class="product" type="textarea"></Input>
+        <Input v-model="productNumber" placeholder="" class="product">
+        <span slot="prepend">产品编号</span>
+        </Input>
+        <Input v-model="productName" placeholder="" class="product">
+        <span slot="prepend">产品名称</span>
+        </Input>
+        <Input v-model="productPlace" placeholder="" class="product">
+        <span slot="prepend">出发城市</span>
+        </Input>
+        <Input v-model="productPrice" placeholder="" class="product">
+        <span slot="prepend">产品价格</span></Input>
+        <Input v-model="productDes" placeholder="" class="product">
+        <span slot="prepend">产品描述</span>
+        </Input>
+        <Input v-model="productStartDate" placeholder="" class="product" >
+        <span slot="prepend">开始时间</span>
+        </Input>
     
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
         </Select>
-    
-        <image-upload class="product" @send-image="getImageArray" :uploadList="imageArray"></image-upload>
+        <Alert  class="myAlert" type="warning">图片上传（至少传一张)</Alert>
+        <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
+           
+        </image-upload>
         <div v-for="(richItem, index) in richItems" class="myProduct">
+            <Alert>{{richItem.placeHolder}}</Alert>
              <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
         </div>
     
@@ -41,10 +61,7 @@ export default {
     data() {
         return {
             richItems: [{ content: '', placeHolder: "线路特色" }, { content: '', placeHolder: "行程介绍" }, { content: '', placeHolder: "费用说明" }, { content: '', placeHolder: "预订须知" },],
-            firstItem: {content: '', placeHolder: "线路特色" },
-            secondItem:{ content: '', placeHolder: "行程介绍" },
-            thirdItem:{ content: '', placeHolder: "费用说明" },
-            fourthItem:{ content: '', placeHolder: "预订须知" },
+           
             productId: '',
             //产品编号
             productNumber: '',
@@ -159,7 +176,9 @@ export default {
                 imageArray: _self.imageArray,
                 detailContent: _self.richItems
             }
-            
+            if (!this.imageArray.length) {
+                _self.$Message.error('请上传图片至少一张');
+            }
             network.uploadProdut(_self.productId, dict, function () {
                 _self.$Message.success('保存成功');
                 setTimeout(function () {
