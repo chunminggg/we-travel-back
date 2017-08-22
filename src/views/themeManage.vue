@@ -34,6 +34,29 @@ export default{
                        title: '最新修改时间',
                         key: 'updateDate',
                         
+                    }, {
+                        title: '排序',
+                        key: 'sortAction',
+                        width: 75,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.sortTheme(params)
+                                        }
+                                    }
+                                }, '置顶'),
+                            ]);
+                        }
                     },
                     {
                         title: '操作',
@@ -110,6 +133,16 @@ export default{
            this.modal1 = true
            this.productNumber = params.row.onlyId
            this.uid = params.row.onlyId
+        },
+        //置顶
+        sortTheme(params){
+            var _self = this
+            let uid = params.row.onlyId
+            network.setFirstTheme(uid).then(data=>{
+                _self.$Message.success('置顶成功')
+            },error=>{
+                _self.$Message.error('置顶失败') 
+            })
         },
         removeProdcut(uid){
             this.$Message.error('您没有权限')

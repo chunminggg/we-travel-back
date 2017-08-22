@@ -60,6 +60,15 @@ export default {
             });
         }
     },
+    //根据sign  过滤主题列表数据
+    getDetailItemList(typeSign) {
+    var query = new AV.Query('Product')
+    query.equalTo('type', typeSign)
+    query.descending('updatedAt')
+    query.addAscending('isSort')
+    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray'])
+    return query.find()
+  },
     uploadProdut(uid, data, successCallback) {
         var Product = AV.Object.extend('Product');
         var product = new Product();
@@ -94,6 +103,11 @@ export default {
         return todo.save();
 
 
+    },
+    setFirstTheme(uid){
+        let todo = AV.Object.createWithoutData('Theme',uid)
+        todo.set('isSort',true)
+        return todo.save()
     },
     uploadTheme(dict, successCallback, errorCallback) {
         var Theme = AV.Object.extend('Theme');

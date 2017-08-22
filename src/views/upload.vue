@@ -34,7 +34,7 @@
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
         </Select>
-        <Alert  class="myAlert" type="warning">图片上传（至少传一张)</Alert>
+        <Alert  class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
         <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
            
         </image-upload>

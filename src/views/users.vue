@@ -20,11 +20,13 @@ import network from '../tools/network.js'
                     },
                     {
                         title: '加入时间',
-                        key: 'createdAt'
+                        key: 'createdAt',
+                        sortable: true
                     },
                     {
                        title: '上次登录时间',
                         key: 'updatedAt',
+                        sortable: true
                         
                     },
                  ],

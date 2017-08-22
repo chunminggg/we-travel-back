@@ -54,6 +54,18 @@
                 'imageArray':_self.imageArray,
                 'onlyId':_self.onlyId
             }
+            if (!_self.themeName.length) {
+                 _self.$Message.error('名称未填写')
+                 return
+            }
+             if (!_self.themeBrief.length) {
+                 _self.$Message.error('简称未填写')
+                 return
+            }
+             if (!_self.imageArray.length) {
+                 _self.$Message.error('图片至少上传一张')
+                 return
+            }
             network.uploadTheme(dict,(data)=>{
             _self.$Message.success('上传成功')
             setTimeout(function(){

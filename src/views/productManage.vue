@@ -1,13 +1,30 @@
 <style scoped>
-
+.header {
+    margin-bottom: 30px;
+    margin-top: 20px
+}
 </style>
 <template>
     <div class="content">
+
+        <div class="header" style="margin-top:20px">
+            <Row>
+                <Col span="2">
+                <h4 style="margin-top:10px">显示过滤：</h4>
+                </Col>
+                <Col span="8">
+                <Select v-model="showTypeSelected" style="width:200px" @on-change="showTypeChange">
+                    <Option v-for="item in showTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+                </Col>
+
+            </Row>
+        </div>
         <Table height="500" :columns="columns" :data="dataArray"></Table>
         <Modal v-model="modal1" title="删除操作" @on-ok="removeProdcut">
             <p>确认将编号为{{productNumber}}的产品删除吗</p>
         </Modal>
-    
+
     </div>
 </template>
 <script>
@@ -18,6 +35,9 @@ export default {
             uid: '',
             productNumber: '',
             modal1: false,
+            //显示类型过滤
+            showTypeSelected: 0,
+            showTypes: [{ label: '全部', value: 0 }],
             columns: [
                 {
                     title: '名称',
@@ -100,14 +120,31 @@ export default {
     },
     created() {
         this.configData()
+        this.congfigChooseType()
     },
     methods: {
         configData() {
             var _self = this
+
             network.getProductList((data) => {
                 _self.dataArray = data
+
             }, (error) => {
                 _self.$Message.error('获取数据失败请重试');
+            })
+
+        },
+        congfigChooseType() {
+            var _self = this
+            network.getThemelist().then(data => {
+                if (data.length) {
+                    _self.showTypes = [{ label: '全部', value: 0 }]
+                    // _self.showTypes.push({ label: '全部', value: 0 })
+                    // _self.showTypeSelected = 0
+                    data.forEach(obj => {
+                        _self.showTypes.push({ label: obj.attributes.name, value: obj.attributes.type })
+                    })
+                }
             })
         },
         //修改
@@ -128,17 +165,41 @@ export default {
                 _self.configData()
             })
         },
-        //置顶
-        setFirst(params) {
-           this.productNumber = params.row.uid
-           network.setFirstProduct(this.productNumber).then(data=>{
-               this.$Message.success('置顶成功')
-           },error=>{
-               this.$Message.error('置顶失败')
-               
-           })
-        },
+        //选中值改变
+        showTypeChange(myValue) {
+            var _self = this
+            if (myValue == 0) {
+                _self.configData()
+            }
+            else {
+                network.getDetailItemList(myValue).then(data => {
+                    var netDataArray = [];
+                    for (var model of data) {
+                        // model.attributes.endDate = model.attributes.endDate.toISOString().slice(0, 10)
+                        // model.attributes.startDate = model.attributes.startDate.toISOString().slice(0, 10)
+                        model.attributes.uid = model.id;
+                        netDataArray.push(model.attributes);
+                    }
+                    _self.dataArray = netDataArray
+                }, (error) => {
+
+                  
+                });
+       
+             
+        }
     },
+    //置顶
+    setFirst(params) {
+        this.productNumber = params.row.uid
+        network.setFirstProduct(this.productNumber).then(data => {
+            this.$Message.success('置顶成功')
+        }, error => {
+            this.$Message.error('置顶失败')
+
+        })
+    },
+},
 
 }    
 </script>
