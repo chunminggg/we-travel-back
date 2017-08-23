@@ -60,13 +60,18 @@ export default {
             });
         }
     },
+    // 首页置顶
+    setMainFirst(onlyId){
+       
+    },
     //根据sign  过滤主题列表数据
     getDetailItemList(typeSign) {
     var query = new AV.Query('Product')
     query.equalTo('type', typeSign)
     query.descending('updatedAt')
     query.addAscending('isSort')
-    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray'])
+    query.addDescending('countNumber')
+    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray','countNumber'])
     return query.find()
   },
     uploadProdut(uid, data, successCallback) {
@@ -179,9 +184,14 @@ export default {
             errorCallback(error);
         });
     },
+    //获取点击排行列表
+    getCountProductList(){
+
+    },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product');
-        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray']);
+        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray','countNumber']);
+        query.addDescending('countNumber')
         query.find().then((data) => {
 
             var dataArray = [];

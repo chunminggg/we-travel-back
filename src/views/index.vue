@@ -75,9 +75,10 @@
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="ios-analytics"></Icon>
-                            客户管理
+                            数据分析
                         </template>
                         <Menu-item name="3-1">客户统计</Menu-item>
+                        <Menu-item name="3-2">点击统计</Menu-item>
                     </Submenu>
                 </Menu>
             </i-col>
@@ -112,6 +113,7 @@ export default {
             if (name == '1-5') this.$router.push('/themeManage')
             if (name == '2-2') this.$router.push('/reserveList')
             if (name == '3-1') this.$router.push('/users')
+            if(name == '3-2') this.$router.push('/productStatis')
         },
     }
 }

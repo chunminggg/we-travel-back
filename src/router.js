@@ -29,6 +29,14 @@ const routers = [
         component: (resolve) => require(['./views/productManage.vue'], resolve)
     },
     {
+         path: '/productStatis',
+        name: 'productStatis',
+        meta: {
+            title: '点击统计'
+        },
+        component: (resolve) => require(['./views/productStatis.vue'], resolve)
+    },
+    {
         path: '/users',
         name: 'users',
         meta: {
