@@ -1,13 +1,13 @@
 const routers = [
-//     {
-//     path: '/',
-//     meta: {
-//         title: '登陆'
-//     },
-//     component: (resolve) => require(['./views/login.vue'], resolve),
-// }, 
-{
+    {
     path: '/',
+    meta: {
+        title: '登陆'
+    },
+    component: (resolve) => require(['./views/login.vue'], resolve),
+}, 
+{
+    path: '/home',
     meta: {
         title: '超想去旅行'
     },
