@@ -30,7 +30,10 @@
         <Input v-model="productStartDate" placeholder="" class="product" >
         <span slot="prepend">开始时间</span>
         </Input>
-    
+        <div class="product">
+             <label>是否特价:</label><i-switch v-model="isRecommend" ></i-switch>
+             <label>是否推荐:</label><i-switch v-model="isSpecialPrice" ></i-switch>
+        </div>
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
         </Select>
@@ -75,6 +78,10 @@ export default {
             productPlace: '',
             productStartDate: '',
             productEndDate: '',
+            //是否推荐
+            isRecommend:false,
+            isSpecialPrice:false,
+            //是否特价
             //日期格式设置
             dateOption1: {
                 disabledDate(date) {
