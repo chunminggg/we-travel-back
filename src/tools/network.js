@@ -92,6 +92,8 @@ export default {
         product.set('price', data.price);
         product.set('imageArray', data.imageArray);
         product.set('detailContent', data.detailContent);
+        product.set('isRecommend',data.isRecommend)
+        product.set('isSpecialPrice',data.isSpecialPrice)
         product.save().then(function (todo) {
             return successCallback();
 

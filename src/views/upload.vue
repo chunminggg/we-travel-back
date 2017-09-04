@@ -2,10 +2,12 @@
 .product {
     margin-top: 10px;
 }
-.myAlert{
-    margin-top:30px;
+
+.myAlert {
+    margin-top: 30px;
 }
-.imageUpload{
+
+.imageUpload {
     margin-bottom: 30px
 }
 </style>
@@ -23,29 +25,32 @@
         <span slot="prepend">出发城市</span>
         </Input>
         <Input v-model="productPrice" placeholder="" class="product">
-        <span slot="prepend">产品价格</span></Input>
+        <span slot="prepend">产品价格</span>
+        </Input>
         <Input v-model="productDes" placeholder="" class="product">
         <span slot="prepend">产品描述</span>
         </Input>
-        <Input v-model="productStartDate" placeholder="" class="product" >
+        <Input v-model="productStartDate" placeholder="" class="product">
         <span slot="prepend">开始时间</span>
         </Input>
         <div class="product">
-             <label>是否特价:</label><i-switch v-model="isRecommend" ></i-switch>
-             <label>是否推荐:</label><i-switch v-model="isSpecialPrice" ></i-switch>
+            <label>是否特价:</label>
+            <i-switch v-model="isRecommend"></i-switch>
+            <label>是否推荐:</label>
+            <i-switch v-model="isSpecialPrice"></i-switch>
         </div>
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
         </Select>
-        <Alert  class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
+        <Alert class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
         <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
-           
+
         </image-upload>
         <div v-for="(richItem, index) in richItems" class="myProduct">
             <Alert>{{richItem.placeHolder}}</Alert>
-             <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
+            <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
         </div>
-    
+
         <Button type="success" long @click="submitData" class="product">确认提交</Button>
     </div>
 </template>
@@ -59,12 +64,12 @@ export default {
     components: {
         imageUpload,
         richEditor,
-       
+
     },
     data() {
         return {
             richItems: [{ content: '', placeHolder: "线路特色" }, { content: '', placeHolder: "行程介绍" }, { content: '', placeHolder: "费用说明" }, { content: '', placeHolder: "预订须知" },],
-           
+
             productId: '',
             //产品编号
             productNumber: '',
@@ -79,8 +84,8 @@ export default {
             productStartDate: '',
             productEndDate: '',
             //是否推荐
-            isRecommend:false,
-            isSpecialPrice:false,
+            isRecommend: false,
+            isSpecialPrice: false,
             //是否特价
             //日期格式设置
             dateOption1: {
@@ -138,11 +143,11 @@ export default {
     created() {
         var _self = this
         _self.productId = this.$route.params.productId
-        network.getThemelist().then(data=>{
-            if(data.length) {
+        network.getThemelist().then(data => {
+            if (data.length) {
                 _self.productTypes = []
-                data.forEach(obj=>{
-                    _self.productTypes.push({label:obj.attributes.name,value:obj.attributes.type})
+                data.forEach(obj => {
+                    _self.productTypes.push({ label: obj.attributes.name, value: obj.attributes.type })
                 })
             }
         })
@@ -155,6 +160,14 @@ export default {
             _self.productPrice = data.price
             _self.imageArray = data.imageArray
             _self.productStartDate = data.startDate
+            if (data.isRecommend != undefined) {
+                _self.isRecommend = data.isRecommend
+
+            }
+            if (data.isSpecialPrice != undefined) {
+                _self.isSpecialPrice = data.isSpecialPrice
+
+            }
 
             // _self.productEndDate = data.endDate
             _self.productTypeSelected = data.type
@@ -181,14 +194,17 @@ export default {
                 onleyId: _self.productNumber,
                 price: _self.productPrice,
                 imageArray: _self.imageArray,
-                detailContent: _self.richItems
+                detailContent: _self.richItems,
+                isRecommend: _self.isRecommend,
+                isSpecialPrice: _self.isSpecialPrice,
             }
             if (!this.imageArray.length) {
                 _self.$Message.error('请上传图片至少一张');
             }
-            network.uploadProdut(_self.productId, dict, function () {
+            
+            network.uploadProdut(_self.productId, dict, function() {
                 _self.$Message.success('保存成功');
-                setTimeout(function () {
+                setTimeout(function() {
                     _self.$router.go(0)
                 }, 1000)
             })
