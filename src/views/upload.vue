@@ -38,6 +38,10 @@
             <i-switch v-model="isRecommend"></i-switch>
             <label>是否推荐:</label>
             <i-switch v-model="isSpecialPrice"></i-switch>
+            <label >是否跟团游</label>
+            <i-switch v-model="isFollowTeam"></i-switch>
+            <label >是否自由行</label>
+            <i-switch v-model="isFreeTravel"></i-switch>
         </div>
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
@@ -86,6 +90,8 @@ export default {
             //是否推荐
             isRecommend: false,
             isSpecialPrice: false,
+            isFollowTeam:false,
+            isFreeTravel:false,
             //是否特价
             //日期格式设置
             dateOption1: {
@@ -160,6 +166,8 @@ export default {
             _self.productPrice = data.price
             _self.imageArray = data.imageArray
             _self.productStartDate = data.startDate
+            _self.isFollowTeam = data.isFollowTeam || false
+            _self.isFreeTravel = data.isFreeTravel || false
             if (data.isRecommend != undefined) {
                 _self.isRecommend = data.isRecommend
 
@@ -197,6 +205,8 @@ export default {
                 detailContent: _self.richItems,
                 isRecommend: _self.isRecommend,
                 isSpecialPrice: _self.isSpecialPrice,
+                isFollowTeam:_self.isFollowTeam,
+                isFreeTravel:_self.isFreeTravel
             }
             if (!this.imageArray.length) {
                 _self.$Message.error('请上传图片至少一张');

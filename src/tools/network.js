@@ -94,6 +94,8 @@ export default {
         product.set('detailContent', data.detailContent);
         product.set('isRecommend',data.isRecommend)
         product.set('isSpecialPrice',data.isSpecialPrice)
+        product.set('isFreeTravel',data.isFreeTravel)
+        product.set('isFollowTeam',data.isFollowTeam)
         product.save().then(function (todo) {
             return successCallback();
 
