@@ -202,7 +202,7 @@ export default {
             this.uid = params.row.uid
             let rowObj = params.row
             this.modifyObj.isSort = rowObj.isSort || false
-            this.modifyObj.isSpecialPrice = rowObj.isSpecialPrice || false
+            this.modifyObj.isSpecialPrice = owObj.isSpecialPrice || false
             this.modifyObj.isFollowTeam = rowObj.isFollowTeam || false
             this.modifyObj.isFreeTravel = rowObj.isFreeTravel || false
 
