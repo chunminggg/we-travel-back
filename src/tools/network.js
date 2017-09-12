@@ -61,19 +61,19 @@ export default {
         }
     },
     // 首页置顶
-    setMainFirst(onlyId){
-       
+    setMainFirst(onlyId) {
+
     },
     //根据sign  过滤主题列表数据
     getDetailItemList(typeSign) {
-    var query = new AV.Query('Product')
-    query.equalTo('type', typeSign)
-    query.descending('updatedAt')
-    query.addAscending('isSort')
-    query.addDescending('countNumber')
-    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray','countNumber'])
-    return query.find()
-  },
+        var query = new AV.Query('Product')
+        query.equalTo('type', typeSign)
+        query.descending('updatedAt')
+        query.addAscending('isSort')
+        query.addDescending('countNumber')
+        query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber'])
+        return query.find()
+    },
     uploadProdut(uid, data, successCallback) {
         var Product = AV.Object.extend('Product');
         var product = new Product();
@@ -92,10 +92,10 @@ export default {
         product.set('price', data.price);
         product.set('imageArray', data.imageArray);
         product.set('detailContent', data.detailContent);
-        product.set('isRecommend',data.isRecommend)
-        product.set('isSpecialPrice',data.isSpecialPrice)
-        product.set('isFreeTravel',data.isFreeTravel)
-        product.set('isFollowTeam',data.isFollowTeam)
+        product.set('isRecommend', data.isRecommend)
+        product.set('isSpecialPrice', data.isSpecialPrice)
+        product.set('isFreeTravel', data.isFreeTravel)
+        product.set('isFollowTeam', data.isFollowTeam)
         product.save().then(function (todo) {
             return successCallback();
 
@@ -105,17 +105,21 @@ export default {
 
     },
     // 置顶项目
-    setFirstProduct(uid) {
+    setFirstProduct(uid, obj) {
 
         let todo = AV.Object.createWithoutData('Product', uid);
+        todo.set('isRecommend', obj.isRecommend)
+        todo.set('isFreeTravel', obj.isFreeTravel)
+        todo.set('isFollowTeam', obj.isFollowTeam)
+        todo.set('isSpeicalPrice', obj.isSpecialPrice)
         todo.set('isSort', true);
         return todo.save();
 
 
     },
-    setFirstTheme(uid){
-        let todo = AV.Object.createWithoutData('Theme',uid)
-        todo.set('isSort',true)
+    setFirstTheme(uid) {
+        let todo = AV.Object.createWithoutData('Theme', uid)
+        todo.set('isSort', true)
         return todo.save()
     },
     uploadTheme(dict, successCallback, errorCallback) {
@@ -189,13 +193,13 @@ export default {
         });
     },
     //获取点击排行列表
-    getCountProductList(){
+    getCountProductList() {
 
     },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product');
-        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray','countNumber']);
-        query.addDescending('countNumber')
+        query.select(['isSort','isFreeTravel', 'isRecommend', 'isFollowTeam', 'isSpecialPrice', 'place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber']);
+        query.addDescending('countNumber');
         query.find().then((data) => {
 
             var dataArray = [];
