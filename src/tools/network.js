@@ -272,6 +272,15 @@ export default {
             errorCallback(error);
         });
     },
+    //删除资讯
+    deleteNewsWithId(uid, successCallback, errorCallback) {
+        var todo = AV.Object.createWithoutData('News', uid);
+        todo.destroy().then((success) => {
+            successCallback();
+        }, (error) => {
+            errorCallback();
+        });
+    },
     deleteProductWithId(uid, successCallback, errorCallback) {
         var todo = AV.Object.createWithoutData('Product', uid);
         todo.destroy().then((success) => {

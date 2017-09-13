@@ -62,8 +62,8 @@ export default {
         network.getArticleDetail(_self.productId, 'Article', (data) => {
             _self.richItems = data.detailContent
             _self.imageArray = data.imageArray
-            _self.articleAuthor = data.articleAuthor
-            _self.articleName = data.articleName
+            _self.articleAuthor = data.describe
+            _self.articleName = data.name
         }, (error) => {
             _self.$Message.error('获取信息失败,请重试')
         })
