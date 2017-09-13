@@ -71,7 +71,7 @@ export default {
         query.descending('updatedAt')
         query.addAscending('isSort')
         query.addDescending('countNumber')
-        query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber'])
+        query.select(['isFollowTeam','isFreeTravel','isSpecialPrice','isRecommend','isSort','place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber'])
         return query.find()
     },
     //上传文章
@@ -133,8 +133,8 @@ export default {
         todo.set('isRecommend', obj.isRecommend)
         todo.set('isFreeTravel', obj.isFreeTravel)
         todo.set('isFollowTeam', obj.isFollowTeam)
-        todo.set('isSpeicalPrice', obj.isSpecialPrice)
-        todo.set('isSort', true);
+        todo.set('isSpecialPrice', obj.isSpecialPrice)
+        todo.set('isSort', obj.isSort);
         return todo.save();
 
 

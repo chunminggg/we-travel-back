@@ -248,11 +248,10 @@ export default {
             this.uid = params.row.uid
             let rowObj = params.row
             this.modifyObj.isSort = rowObj.isSort || false
-            this.modifyObj.isSpecialPrice = owObj.isSpecialPrice || false
+            this.modifyObj.isSpecialPrice = rowObj.isSpecialPrice || false
             this.modifyObj.isFollowTeam = rowObj.isFollowTeam || false
             this.modifyObj.isFreeTravel = rowObj.isFreeTravel || false
-
-            this.modifyObj.isReommend = rowObj.isReommend || false
+            this.modifyObj.isRecommend = rowObj.isRecommend || false
         },
         //修改
         modfifyProduct(params) {
@@ -284,9 +283,11 @@ export default {
         //选中值改变
         showTypeChange(myValue) {
             var _self = this
+            myValue = this.showTypeSelected
             if (myValue == 0) {
                 _self.configData()
             } else {
+
                 network.getDetailItemList(myValue).then(data => {
                     var netDataArray = [];
                     for (var model of data) {
@@ -295,6 +296,7 @@ export default {
                         model.attributes.uid = model.id;
                         netDataArray.push(model.attributes);
                     }
+
                     _self.dataArray = netDataArray
                 }, (error) => {
 
@@ -307,9 +309,10 @@ export default {
         //置顶
         setFirst() {
             var _self = this
+
             network.setFirstProduct(this.uid, this.modifyObj).then(data => {
                 this.$Message.success('操作成功')
-                _self.configData()
+                _self.showTypeChange()
             }, error => {
                 this.$Message.error('操作失败')
 
