@@ -95,6 +95,7 @@ export default {
             debugger;
         });
     },
+
     uploadProdut(uid, data, successCallback) {
         var Product = AV.Object.extend('Product');
         var product = new Product();
@@ -126,9 +127,13 @@ export default {
 
     },
     // 置顶项目
-    setFirstProduct(uid) {
+    setFirstProduct(uid, obj) {
 
         let todo = AV.Object.createWithoutData('Product', uid);
+        todo.set('isRecommend', obj.isRecommend)
+        todo.set('isFreeTravel', obj.isFreeTravel)
+        todo.set('isFollowTeam', obj.isFollowTeam)
+        todo.set('isSpeicalPrice', obj.isSpecialPrice)
         todo.set('isSort', true);
         return todo.save();
 
@@ -249,6 +254,8 @@ export default {
         var query = new AV.Query('Product');
         query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber']);
         query.addDescending('countNumber')
+        query.select(['isSort','isFreeTravel', 'isRecommend', 'isFollowTeam', 'isSpecialPrice', 'place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber']);
+        query.addDescending('countNumber');
         query.find().then((data) => {
 
             var dataArray = [];
