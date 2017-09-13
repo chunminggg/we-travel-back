@@ -6,44 +6,70 @@
 </style>
 
 <template>
-<div class="content">
+    <div class="content">
 
-    <div class="header" style="margin-top:20px">
-        <Row>
-            <Col span="2">
-            <h4 style="margin-top:10px">显示过滤：</h4>
-            </Col>
-            <Col span="8">
-            <Select v-model="showTypeSelected" style="width:200px" @on-change="showTypeChange">
+        <div class="header" style="margin-top:20px">
+            <Row>
+                <Col span="2">
+                <h4 style="margin-top:10px">分类:</h4>
+                </Col>
+                <Col span="8">
+                <Select v-model="showTypeSelected" style="width:200px" @on-change="showTypeChange">
                     <Option v-for="item in showTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
-            </Col>
+                </Col>
+                <Col span="2">
+                <h4 style="margin-top:10px">过滤:</h4>
+                </Col>
+                <Col span="9" style="margin:0.5rem">
+                <CheckboxGroup v-model="sortArray" @on-change="checkGroupChange">
+                    <Checkbox label="isSort">
+                        <Icon type="arrow-up-a"></Icon>
+                        <span>置顶</span>
+                    </Checkbox>
+                    <Checkbox label="isRecommend">
+                        <Icon type="navigate"></Icon>
+                        <span>推荐</span>
+                    </Checkbox>
+                    <Checkbox label="isSpecialPrice">
+                        <Icon type="star"></Icon>
+                        <span>特价</span>
+                    </Checkbox>
+                    <Checkbox label="isFreeTravel">
+                        <Icon type="navigate"></Icon>
+                        <span>自由行</span>
+                    </Checkbox>
+                    <Checkbox label="isFollowTeam">
+                        <Icon type="flag"></Icon>
+                        <span>跟团游</span>
+                    </Checkbox>
+                </CheckboxGroup>
+                </Col>
+            </Row>
+        </div>
+        <Table height="500" :columns="columns" :data="dataArray"></Table>
+        <Modal v-model="modal1" title="删除操作" @on-ok="removeProdcut">
+            <p>确认将编号为{{productNumber}}的产品删除吗</p>
+        </Modal>
+        <Modal v-model="modal2" title="产品分类" @on-ok="confirmOperation">
 
-        </Row>
+            <label>是否置顶:</label>
+            <i-switch v-model="modifyObj.isSort"></i-switch>
+            <label>是否特价:</label>
+
+            <i-switch v-model="modifyObj.isSpecialPrice"></i-switch>
+            <label>是否推荐:</label>
+
+            <i-switch v-model="modifyObj.isRecommend"></i-switch>
+
+            <label>是否自由行:</label>
+            <i-switch v-model="modifyObj.isFreeTravel"></i-switch>
+
+            <label>是否跟团游:</label>
+            <i-switch v-model="modifyObj.isFollowTeam"></i-switch>
+        </Modal>
+
     </div>
-    <Table height="500" :columns="columns" :data="dataArray"></Table>
-    <Modal v-model="modal1" title="删除操作" @on-ok="removeProdcut">
-        <p>确认将编号为{{productNumber}}的产品删除吗</p>
-    </Modal>
-    <Modal v-model="modal2" title="产品分类" @on-ok="confirmOperation">
-
-        <label>是否置顶:</label>
-        <i-switch v-model="modifyObj.isSort"></i-switch>
-        <label>是否特价:</label>
-
-        <i-switch v-model="modifyObj.isSpecialPrice"></i-switch>
-        <label>是否推荐:</label>
-
-        <i-switch v-model="modifyObj.isRecommend"></i-switch>
-
-        <label>是否自由行:</label>
-        <i-switch v-model="modifyObj.isFreeTravel"></i-switch>
-
-        <label>是否跟团游:</label>
-        <i-switch v-model="modifyObj.isFollowTeam"></i-switch>
-    </Modal>
-
-</div>
 </template>
 
 <script>
@@ -57,6 +83,8 @@ export default {
             modal2: false,
             //显示类型过滤
             showTypeSelected: 0,
+            sortArray: [],
+            rawDataArray: [],
             modifyObj: {
                 isSort: false,
                 isFollowTeam: false,
@@ -69,93 +97,90 @@ export default {
                 value: 0
             }],
             columns: [{
-                    title: '名称',
-                    key: 'name'
-                },
-                {
-                    title: '置顶',
-                    key: 'isSort'
-                },
-                {
-                    title: '特价',
-                    key: 'isSpecialPrice'
-                },
-                {
-                    title: '自由行',
-                    key: 'isFreeTravel'
-                },
-                {
-                    title: '推荐',
-                    key: 'isRecommend'
-                },
-                {
-                    title: '跟团游',
-                    key: 'isFollowTeam'
-                },
-                {
-                    title: '开始时间',
-                    key: 'startDate',
-
-                }, {
-                    title: '分类',
-                    key: 'action',
-                    width: 150,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'info',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        // this.setFirst(params)
-                                        this.sortOperation(params)
-                                    }
+                title: '名称',
+                key: 'name',
+                width: 150,
+            },
+            {
+                title: '置顶',
+                key: 'isSort'
+            },
+            {
+                title: '特价',
+                key: 'isSpecialPrice'
+            },
+            {
+                title: '自由行',
+                key: 'isFreeTravel'
+            },
+            {
+                title: '推荐',
+                key: 'isRecommend'
+            },
+            {
+                title: '跟团游',
+                key: 'isFollowTeam'
+            },
+            {
+                title: '分类',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: (h, params) => {
+                    return h('div', [
+                        h('Button', {
+                            props: {
+                                type: 'info',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    // this.setFirst(params)
+                                    this.sortOperation(params)
                                 }
-                            }, '操作')
-                        ]);
-                    }
-                },
-                {
-                    title: '操作',
-                    key: 'action',
-                    width: 150,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.modfifyProduct(params)
-                                    }
-                                }
-                            }, '修改'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.deleteProduct(params)
-                                    }
-                                }
-                            }, '配置')
-                        ]);
-                    }
+                            }
+                        }, '操作')
+                    ]);
                 }
+            },
+            {
+                title: '操作',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: (h, params) => {
+                    return h('div', [
+                        h('Button', {
+                            props: {
+                                type: 'primary',
+                                size: 'small'
+                            },
+                            style: {
+                                marginRight: '5px'
+                            },
+                            on: {
+                                click: () => {
+                                    this.modfifyProduct(params)
+                                }
+                            }
+                        }, '修改'),
+                        h('Button', {
+                            props: {
+                                type: 'error',
+                                size: 'small'
+                            },
+                            on: {
+                                click: () => {
+                                    this.deleteProduct(params)
+                                }
+                            }
+                        }, '配置')
+                    ]);
+                }
+            }
             ],
             dataArray: [],
         }
@@ -165,11 +190,32 @@ export default {
         this.congfigChooseType()
     },
     methods: {
+        // 表格数据过滤
+        checkGroupChange(checkGroups) {
+            let _self = this
+            let filterArray = new Set()
+            for (let myObj of _self.rawDataArray) {
+                let isSign = true
+                for (let obj of checkGroups) {
+                    if (myObj[obj] != true) {
+                        isSign = false
+                    }
+                }
+                if (isSign) {
+                     filterArray.add(myObj) 
+                }
+            }
+            _self.dataArray = [...filterArray]
+            if (!checkGroups.length) {
+                _self.dataArray = _self.rawDataArray
+            }
+        },
         configData() {
             var _self = this
 
             network.getProductList((data) => {
                 _self.dataArray = data
+                _self.rawDataArray = data
 
             }, (error) => {
                 _self.$Message.error('获取数据失败请重试');
