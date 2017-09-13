@@ -21,12 +21,28 @@ const routers = [
         component: (resolve) => require(['./views/upload.vue'], resolve)
     },
     {
+        path: '/news/:productId',
+        name: 'news',
+        meta: {
+            title: '发布咨询'
+        },
+        component: (resolve) => require(['./views/newsUpload.vue'], resolve)
+    },
+    {
         path: '/productManage',
         name: 'productManage',
         meta: {
             title: '产品管理'
         },
         component: (resolve) => require(['./views/productManage.vue'], resolve)
+    },
+     {
+        path: '/newsManage',
+        name: 'newsManage',
+        meta: {
+            title: '咨询管理'
+        },
+        component: (resolve) => require(['./views/newsManage.vue'], resolve)
     },
     {
          path: '/productStatis',

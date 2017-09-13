@@ -61,19 +61,40 @@ export default {
         }
     },
     // 首页置顶
-    setMainFirst(onlyId){
-       
+    setMainFirst(onlyId) {
+
     },
     //根据sign  过滤主题列表数据
     getDetailItemList(typeSign) {
-    var query = new AV.Query('Product')
-    query.equalTo('type', typeSign)
-    query.descending('updatedAt')
-    query.addAscending('isSort')
-    query.addDescending('countNumber')
-    query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray','countNumber'])
-    return query.find()
-  },
+        var query = new AV.Query('Product')
+        query.equalTo('type', typeSign)
+        query.descending('updatedAt')
+        query.addAscending('isSort')
+        query.addDescending('countNumber')
+        query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber'])
+        return query.find()
+    },
+    //上传文章
+    uploadArticle(uid, data, successCallback) {
+    var Product = AV.Object.extend('Article');
+        var product = new Product();
+        if (uid != undefined && uid != 'new') {
+
+            product = AV.Object.createWithoutData('Article', uid);
+        }
+
+        product.set('name', data.name);
+        product.set('describe', data.author);
+        product.set('imageArray', data.imageArray);
+        product.set('detailContent', data.detailContent);
+   
+        product.save().then(function (todo) {
+            return successCallback();
+
+        }, function (error) {
+            debugger;
+        });
+    },
     uploadProdut(uid, data, successCallback) {
         var Product = AV.Object.extend('Product');
         var product = new Product();
@@ -92,10 +113,10 @@ export default {
         product.set('price', data.price);
         product.set('imageArray', data.imageArray);
         product.set('detailContent', data.detailContent);
-        product.set('isRecommend',data.isRecommend)
-        product.set('isSpecialPrice',data.isSpecialPrice)
-        product.set('isFreeTravel',data.isFreeTravel)
-        product.set('isFollowTeam',data.isFollowTeam)
+        product.set('isRecommend', data.isRecommend)
+        product.set('isSpecialPrice', data.isSpecialPrice)
+        product.set('isFreeTravel', data.isFreeTravel)
+        product.set('isFollowTeam', data.isFollowTeam)
         product.save().then(function (todo) {
             return successCallback();
 
@@ -113,9 +134,9 @@ export default {
 
 
     },
-    setFirstTheme(uid){
-        let todo = AV.Object.createWithoutData('Theme',uid)
-        todo.set('isSort',true)
+    setFirstTheme(uid) {
+        let todo = AV.Object.createWithoutData('Theme', uid)
+        todo.set('isSort', true)
         return todo.save()
     },
     uploadTheme(dict, successCallback, errorCallback) {
@@ -176,6 +197,19 @@ export default {
         return query.get(onlyId);
 
     },
+    //获取文章详情
+    getArticleDetail(uid, className, successCallback, errorCallback) {
+        if (uid == undefined || uid == 'new') {
+            return;
+        }
+        var query = new AV.Query(className);
+        query.get(uid).then(function (todo) {
+            todo.id = todo.attributes.productId;
+            successCallback(todo.attributes);
+        }, function (error) {
+            errorCallback(error);
+        });
+    },
     getTodoDetail(uid, className, successCallback, errorCallback) {
         if (uid == undefined || uid == 'new') {
             return;
@@ -189,12 +223,31 @@ export default {
         });
     },
     //获取点击排行列表
-    getCountProductList(){
+    getCountProductList() {
 
+    },
+    // 获取文章列表
+     getArticleList(successCallback, errorCallback) {
+        var query = new AV.Query('Article');
+        query.select(['name','describe']);
+        query.find().then((data) => {
+            var dataArray = [];
+            for (var model of data) {
+                // model.attributes.endDate = model.attributes.endDate.toISOString().slice(0, 10)
+                // model.attributes.startDate = model.attributes.startDate.toISOString().slice(0, 10)
+                model.attributes.uid = model.id;
+                dataArray.push(model.attributes);
+            }
+
+            successCallback(dataArray);
+        }, (error) => {
+
+            errorCallback(error);
+        });
     },
     getProductList(successCallback, errorCallback) {
         var query = new AV.Query('Product');
-        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray','countNumber']);
+        query.select(['place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber']);
         query.addDescending('countNumber')
         query.find().then((data) => {
 

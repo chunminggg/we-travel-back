@@ -60,6 +60,8 @@
                             发布产品
                         </Menu-item>
                         <Menu-item name="1-2">产品管理</Menu-item>
+                        <Menu-item name="1-6">资讯发布</Menu-item>
+                        <Menu-item name="1-7">咨询管理</Menu-item>
                         <Menu-item name="1-3">主题发布</Menu-item>
                         <Menu-item name="1-4">首页管理</Menu-item>
                          <Menu-item name="1-5">主题管理</Menu-item>
@@ -111,6 +113,8 @@ export default {
             if (name == '1-3') this.$router.push('/theme')
             if (name == '1-4') this.$router.push('/mainScroll')
             if (name == '1-5') this.$router.push('/themeManage')
+            if (name == '1-6') this.$router.push({ path: '/news', name: 'news', params: { 'productId': 'new' } })
+            if (name == '1-7') this.$router.push('/newsManage')
             if (name == '2-2') this.$router.push('/reserveList')
             if (name == '3-1') this.$router.push('/users')
             if(name == '3-2') this.$router.push('/productStatis')
