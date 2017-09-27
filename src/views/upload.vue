@@ -10,6 +10,7 @@
 .imageUpload {
     margin-bottom: 30px
 }
+
 </style>
 
 <template>
@@ -36,7 +37,7 @@
         <div class="product">
             <Button type="info" class="product" @click="priceSelect">价格添加</Button>
             <div class="priceTag">
-            <Tag v-for="item in tagArray">{{item.date}}</Tag>
+            <Tag class="tagView" v-for="(item,index) in tagArray"  closable @on-close="handleClose(index)">{{item.date}} ￥{{item.price}}</Tag>
             </div>
         </div>
         <div class="product">
@@ -185,6 +186,7 @@ export default {
             _self.productStartDate = data.startDate
             _self.isFollowTeam = data.isFollowTeam || false
             _self.isFreeTravel = data.isFreeTravel || false
+            _self.tagArray = data.tagArray || []
             if (data.isRecommend != undefined) {
                 _self.isRecommend = data.isRecommend
 
@@ -201,13 +203,17 @@ export default {
         })
     },
     methods: {
+        handleClose(index){
+            this.tagArray.splice(index,1)
+        },
         // 价格添加
         priceAdd() {
            let dict = {
                date:this.singleDate.toLocaleDateString(),
-               price:this.price
+               price:this.singlePrice
            }
-           
+
+           this.tagArray.push(dict)
         },
         //价格选择
         priceSelect() {
@@ -235,7 +241,8 @@ export default {
                 isRecommend: _self.isRecommend,
                 isSpecialPrice: _self.isSpecialPrice,
                 isFollowTeam: _self.isFollowTeam,
-                isFreeTravel: _self.isFreeTravel
+                isFreeTravel: _self.isFreeTravel,
+                tagArray:_self.tagArray,
             }
             if (!this.imageArray.length) {
                 _self.$Message.error('请上传图片至少一张');
