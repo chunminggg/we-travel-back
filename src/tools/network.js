@@ -118,11 +118,13 @@ export default {
         product.set('isSpecialPrice', data.isSpecialPrice)
         product.set('isFreeTravel', data.isFreeTravel)
         product.set('isFollowTeam', data.isFollowTeam)
+        // let TravelContent = new AV.Object('TravelDetail')
+        // TravelContent.set('dependent', product)
         product.save().then(function (todo) {
             return successCallback();
 
         }, function (error) {
-            debugger;
+
         });
 
     },

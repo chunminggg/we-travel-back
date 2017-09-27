@@ -34,13 +34,19 @@
         <span slot="prepend">开始时间</span>
         </Input>
         <div class="product">
+            <Button type="info" class="product" @click="priceSelect">价格添加</Button>
+            <div class="priceTag">
+            <Tag v-for="item in tagArray">{{item.date}}</Tag>
+            </div>
+        </div>
+        <div class="product">
             <label>是否特价:</label>
             <i-switch v-model="isRecommend"></i-switch>
             <label>是否推荐:</label>
             <i-switch v-model="isSpecialPrice"></i-switch>
-            <label >是否跟团游</label>
+            <label>是否跟团游</label>
             <i-switch v-model="isFollowTeam"></i-switch>
-            <label >是否自由行</label>
+            <label>是否自由行</label>
             <i-switch v-model="isFreeTravel"></i-switch>
         </div>
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
@@ -56,6 +62,11 @@
         </div>
 
         <Button type="success" long @click="submitData" class="product">确认提交</Button>
+
+        <Modal v-model="priceModal" title="价格添加" @on-ok="priceAdd" >
+            <Input v-model="singlePrice" placeholder="请输入价格" style="width: 300px"></Input>
+            <DatePicker v-model="singleDate" type="date" placeholder="选择日期" style="width: 300px" class="product"></DatePicker>
+        </Modal>
     </div>
 </template>
 
@@ -90,9 +101,15 @@ export default {
             //是否推荐
             isRecommend: false,
             isSpecialPrice: false,
-            isFollowTeam:false,
-            isFreeTravel:false,
+            isFollowTeam: false,
+            isFreeTravel: false,
+            // 模态框
+            priceModal: false,
             //是否特价
+            //价格添加
+            singlePrice:'',
+            singleDate:'',
+            tagArray:[],
             //日期格式设置
             dateOption1: {
                 disabledDate(date) {
@@ -184,6 +201,18 @@ export default {
         })
     },
     methods: {
+        // 价格添加
+        priceAdd() {
+           let dict = {
+               date:this.singleDate.toLocaleDateString(),
+               price:this.price
+           }
+           
+        },
+        //价格选择
+        priceSelect() {
+            this.priceModal = true
+        },
         getRichTextArray(data) {
             this.richItems[data.index].content = data.content
         },
@@ -205,13 +234,13 @@ export default {
                 detailContent: _self.richItems,
                 isRecommend: _self.isRecommend,
                 isSpecialPrice: _self.isSpecialPrice,
-                isFollowTeam:_self.isFollowTeam,
-                isFreeTravel:_self.isFreeTravel
+                isFollowTeam: _self.isFollowTeam,
+                isFreeTravel: _self.isFreeTravel
             }
             if (!this.imageArray.length) {
                 _self.$Message.error('请上传图片至少一张');
             }
-            
+
             network.uploadProdut(_self.productId, dict, function() {
                 _self.$Message.success('保存成功');
                 setTimeout(function() {
