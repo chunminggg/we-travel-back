@@ -96,6 +96,7 @@
 </template>
 <script>
 import uploadView from './upload'
+import AV from 'leancloud-storage';
 export default {
     components: {
         uploadView
@@ -103,6 +104,12 @@ export default {
     data() {
         return {
 
+        }
+    },
+    created(){
+        var currentUser = AV.User.current();
+        if (!currentUser) {
+           this.$router.push('/')
         }
     },
     methods: {
