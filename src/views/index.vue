@@ -82,6 +82,13 @@
                         <Menu-item name="3-1">客户统计</Menu-item>
                         <Menu-item name="3-2">点击统计</Menu-item>
                     </Submenu>
+                    <Submenu name="4">
+                        <template slot="title">
+                            <Icon type="ios-location"></Icon>
+                            前端页面
+                        </template>
+                        <Menu-item name="4-1">首页展示</Menu-item>
+                    </Submenu>
                 </Menu>
             </i-col>
             <i-col span="19">
@@ -125,6 +132,7 @@ export default {
             if (name == '2-2') this.$router.push('/reserveList')
             if (name == '3-1') this.$router.push('/users')
             if(name == '3-2') this.$router.push('/productStatis')
+             if(name == '4-1') this.$router.push('/main')
         },
     }
 }

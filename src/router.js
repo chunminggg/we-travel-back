@@ -5,7 +5,14 @@ const routers = [
         title: '登陆'
     },
     component: (resolve) => require(['./views/login.vue'], resolve),
-}, 
+},{
+    path:'/main',
+    meta:{
+        title:'首页',
+
+    },
+      component: (resolve) => require(['./views/main.vue'], resolve),
+},
 {
     path: '/home',
     meta: {

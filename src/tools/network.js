@@ -296,6 +296,27 @@ export default {
         var todo = AV.Object.createWithoutData('Product', uid);
 
     },
+     // 首页滚动图
+    getScrollView() {
+        var query = new AV.Query('MainScroll');
+        query.descending('createdAt');
+        query.limit(1)
+        return query.find()
+    },
+    // 首页标签视图
+    getAllIsland(limitNumber) {
+        var query = new AV.Query('Theme')
+        query.limit(limitNumber)
+        return query.find()
+    },
+    // 首页推荐列表
+    getRecommenList() {
+        var query = new AV.Query('Product')
+         query.equalTo('isRecommend', true)
+        query.descending('updatedAt')
+        query.select(['place', 'name', 'startDate', 'type', 'onleyId', 'price', 'describe', 'imageArray','countNumber'])
+        return query.find()
+    },
     getUsers(successCallback, errorCallback) {
         var query = new AV.Query('_User');
         query.find().then((data) => {
