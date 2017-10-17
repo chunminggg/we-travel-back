@@ -1,5 +1,7 @@
 <style>
-
+img{
+  height: 100%;
+}
 </style>
 <template>
   <div>
