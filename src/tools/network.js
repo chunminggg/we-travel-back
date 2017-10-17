@@ -259,6 +259,7 @@ export default {
         query.addDescending('countNumber')
         query.select(['isSort','isFreeTravel', 'isRecommend', 'isFollowTeam', 'isSpecialPrice', 'place', 'name', 'startDate', 'type', 'endDate', 'onleyId', 'price', 'describe', 'imageArray', 'countNumber']);
         query.addDescending('countNumber');
+        query.addDescending('updatedAt')
         query.find().then((data) => {
 
             var dataArray = [];

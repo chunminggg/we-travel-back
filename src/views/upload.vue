@@ -63,6 +63,7 @@
         </div>
 
         <Button type="success" long @click="submitData" class="product">确认提交</Button>
+        <Button type="error" long @click="elseSubmitData" class="product">另存为</Button>
 
         <Modal v-model="priceModal" title="价格添加" @on-ok="priceAdd" >
             <Input v-model="singlePrice" placeholder="请输入价格" style="width: 300px"></Input>
@@ -225,9 +226,9 @@ export default {
         getImageArray(data) {
             this.imageArray = data
         },
-        submitData() {
+        getNowData(){
             var _self = this
-            var dict = {
+              var dict = {
                 startDate: _self.productStartDate,
                 // endDate: _self.productEndDate,
                 name: _self.productName,
@@ -244,6 +245,21 @@ export default {
                 isFreeTravel: _self.isFreeTravel,
                 tagArray:_self.tagArray,
             }
+            return dict
+        },
+        // 另存为
+        elseSubmitData(){
+            var _self = this
+            let dict = this.getNowData()
+
+             network.uploadProdut('', dict, function() {
+                _self.$Message.success('另存为成功');
+                _self.$router.push('/productManage')
+            })
+        },
+        submitData() {
+            var _self = this
+            var dict = this.getNowData()
             if (!this.imageArray.length) {
                 _self.$Message.error('请上传图片至少一张');
             }
