@@ -20,8 +20,9 @@
     "iview": "^2.0.0-rc.13",
     "js-cookie": "^2.1.4",
     "leancloud-storage": "^3.0.2",
-    "moment": "^2.18.1",
+    "moment": "^2.20.1",
     "vue": "^2.2.6",
+    "vue-fullcalendar": "^1.0.9",
     "vue-quill-editor": "^2.2.6",
     "vue-router": "^2.3.1"
   },

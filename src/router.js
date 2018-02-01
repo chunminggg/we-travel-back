@@ -68,6 +68,14 @@ const routers = [
         component: (resolve) => require(['./views/users.vue'], resolve)
     },
     {
+        path:'/newUpload',
+        name:'newUpload',
+        meta:{
+            title:'新版产品发布'
+        },
+        component: (resolve) => require(['./views/publish/index.vue'], resolve)
+    },
+    {
         path: '/reserveList',
         name: 'reserveList',
         meta: {

@@ -2,6 +2,7 @@
 </style>
 <template>
 <div class="content">
+
 <Table  :columns="columns" :data="dataArray"></Table>
 </div>
 </template>

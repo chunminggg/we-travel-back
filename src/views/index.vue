@@ -59,6 +59,7 @@
                         <Menu-item name="1-1">
                             发布产品
                         </Menu-item>
+                        <Menu-item name="1-9">新版产品发布</Menu-item>
                         <Menu-item name="1-2">产品管理</Menu-item>
                         <Menu-item name="1-6">资讯发布</Menu-item>
                         <Menu-item name="1-7">咨询管理</Menu-item>
@@ -133,6 +134,7 @@ export default {
             if (name == '3-1') this.$router.push('/users')
             if(name == '3-2') this.$router.push('/productStatis')
              if(name == '4-1') this.$router.push('/main')
+              if(name == '1-9') this.$router.push({name:'newUpload'})
         },
     }
 }
