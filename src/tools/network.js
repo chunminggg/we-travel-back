@@ -119,6 +119,9 @@ export default {
         product.set('isFreeTravel', data.isFreeTravel)
         product.set('isFollowTeam', data.isFollowTeam)
         product.set('tagArray',data.tagArray)
+        product.set('dayItems',data.dayItems)
+        product.set('calendarEvents',data.calendarEvents)
+        product.set('isNewProduct',data.isNewProduct)
         // let TravelContent = new AV.Object('TravelDetail')
         // TravelContent.set('dependent', product)
         product.save().then(function (todo) {
