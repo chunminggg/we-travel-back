@@ -59,10 +59,7 @@
                         <Menu-item name="1-1">
                             发布产品
                         </Menu-item>
-                        <!-- <Menu-item name="1-9">新版产品发布</Menu-item> -->
                         <Menu-item name="1-2">产品管理</Menu-item>
-                        <!-- <Menu-item name="1-6">资讯发布</Menu-item> -->
-                        <!-- <Menu-item name="1-7">咨询管理</Menu-item> -->
                         <Menu-item name="1-3">主题发布</Menu-item>
                         <Menu-item name="1-4">首页管理</Menu-item>
                          <Menu-item name="1-5">主题管理</Menu-item>
@@ -83,13 +80,7 @@
                         <Menu-item name="3-1">客户统计</Menu-item>
                         <Menu-item name="3-2">点击统计</Menu-item>
                     </Submenu>
-                    <!-- <Submenu name="4">
-                        <template slot="title">
-                            <Icon type="ios-location"></Icon>
-                            前端页面
-                        </template>
-                        <Menu-item name="4-1">首页展示</Menu-item>
-                    </Submenu> -->
+                    
                 </Menu>
             </i-col>
             <i-col span="19">
