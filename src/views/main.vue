@@ -53,6 +53,7 @@ import mainScroll from './main/mainScroll'
 import mainNavitor from './main/mainNavitor'
 import tagView from './main/tagView'
 import recommendList from './main/recommendList'
+import AV from 'leancloud-storage';
 export default {
     components: {
         mainScroll,
@@ -66,6 +67,9 @@ export default {
             islandArray:[],
             recommendArray:[],
         }
+    },
+    methods:{
+      
     },
     created() {
         let that = this

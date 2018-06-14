@@ -8,7 +8,7 @@ img {
 <template>
     <div class="">
         <Carousel v-model="value3" :autoplay="setting.autoplay" :autoplay-speed="setting.autoplaySpeed" :dots="setting.dots" :trigger="setting.trigger" :arrow="setting.arrow">
-            <CarouselItem v-for="item in scrollArray">
+            <CarouselItem v-for="(item,index) in scrollArray" :key="index">
                 <img :src="item.url" alt="">
             </CarouselItem>
         </Carousel>
