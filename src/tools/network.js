@@ -7,7 +7,23 @@ AV.init({
     appId: APP_ID,
     appKey: APP_KEY
 });
+function replaceAll(item){
+    console.log(item)
+    let reg= new RegExp("ac-qDUQr0Em.clouddn.com","g"); 
+    item.replace(reg,"c-qduqr0em.cn-n1.lcfile.com")
+    fetchUpdate(JSON.parse(item))
+}
+function fetchUpdate(item){
+    console.log(item)
+    var todo = AV.Object.createWithoutData('Product', item.objectId);
+    // 修改属性
+    todo.set(item);
+    // 保存到云端
+    todo.save();
+    console.log('保存保存')
+}
 export default {
+   
     userLogin(dict) {
         return AV.User.logInWithMobilePhone(dict.phoneNumber, dict.password);
     },

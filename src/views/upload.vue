@@ -37,7 +37,7 @@
         <div class="product">
             <Button type="info" class="product" @click="priceSelect">价格添加</Button>
             <div class="priceTag">
-            <Tag class="tagView" v-for="(item,index) in tagArray"  closable @on-close="handleClose(index)">{{item.date}} ￥{{item.price}}</Tag>
+            <Tag class="tagView" v-for="(item,index) in tagArray" :key="index" closable @on-close="handleClose(index)">{{item.date}} ￥{{item.price}}</Tag>
             </div>
         </div>
         <div class="product">
@@ -51,13 +51,13 @@
             <i-switch v-model="isFreeTravel"></i-switch>
         </div>
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
-            <Option v-for="item in productTypes" :value="item.value" :key="item">{{ item.label }}</Option>
+            <Option v-for="(item,index) in productTypes" :value="item.value" :key="index">{{ item.label }}</Option>
         </Select>
         <Alert class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
         <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
 
         </image-upload>
-        <div v-for="(richItem, index) in richItems" class="myProduct">
+        <div v-for="(richItem, index) in richItems" :key="index" class="myProduct">
             <Alert>{{richItem.placeHolder}}</Alert>
             <rich-editor class="product" :richContent="richItem" :richIndex="index" @send-text="getRichTextArray"></rich-editor>
         </div>
@@ -177,6 +177,7 @@ export default {
             }
         })
         network.getTodoDetail(_self.productId, 'Product', (data) => {
+
             _self.richItems = data.detailContent
             _self.productNumber = data.onleyId
             _self.productPlace = data.place

@@ -59,10 +59,10 @@
                         <Menu-item name="1-1">
                             发布产品
                         </Menu-item>
-                        <Menu-item name="1-9">新版产品发布</Menu-item>
+                        <!-- <Menu-item name="1-9">新版产品发布</Menu-item> -->
                         <Menu-item name="1-2">产品管理</Menu-item>
-                        <Menu-item name="1-6">资讯发布</Menu-item>
-                        <Menu-item name="1-7">咨询管理</Menu-item>
+                        <!-- <Menu-item name="1-6">资讯发布</Menu-item> -->
+                        <!-- <Menu-item name="1-7">咨询管理</Menu-item> -->
                         <Menu-item name="1-3">主题发布</Menu-item>
                         <Menu-item name="1-4">首页管理</Menu-item>
                          <Menu-item name="1-5">主题管理</Menu-item>
@@ -83,13 +83,13 @@
                         <Menu-item name="3-1">客户统计</Menu-item>
                         <Menu-item name="3-2">点击统计</Menu-item>
                     </Submenu>
-                    <Submenu name="4">
+                    <!-- <Submenu name="4">
                         <template slot="title">
                             <Icon type="ios-location"></Icon>
                             前端页面
                         </template>
                         <Menu-item name="4-1">首页展示</Menu-item>
-                    </Submenu>
+                    </Submenu> -->
                 </Menu>
             </i-col>
             <i-col span="19">
@@ -116,11 +116,50 @@ export default {
     },
     created(){
         var currentUser = AV.User.current();
+        this.fectchAction();
         if (!currentUser) {
            this.$router.push('/')
         }
     },
     methods: {
+        replaceAll(item) {
+            
+      let reg = new RegExp("llc-qduqr0em.cn-n1.lcfile.com", "g");
+      item = item.replace(reg, "lc-qduqr0em.cn-n1.lcfile.com");
+      console.log(item)
+      return JSON.parse(item)
+    },
+    fetchUpdate(item) {
+      console.log(item);
+      var todo = AV.Object.createWithoutData("Product", item.objectId);
+      // 修改属性
+      todo.set(item);
+      // 保存到云端
+      todo.save();
+      console.log("保存保存");
+    },
+    fectchAction() {
+
+        let that = this
+      var query = new AV.Query('Product');
+  query.find().then(function (todos) {
+    todos.forEach(function(todo) {
+        let item = that.replaceAll(JSON.stringify(todo))
+      todo.set({
+          detailConent:item.detailConent,
+          imageArray:item.imageArray
+      })
+    });
+
+    return AV.Object.saveAll(todos);
+  }).then(function(todos) {
+    // 更新成功
+    console.log('更新陈宫')
+  }, function (error) {
+    // 异常处理
+    console.log(error)
+  });
+    },
         jumpToUploadView(name) {
             // debugger
             if (name == '1-1') this.$router.push({ path: '/upload', name: 'upload', params: { 'productId': 'new' } })
