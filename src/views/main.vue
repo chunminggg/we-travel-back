@@ -48,12 +48,12 @@
     </div>
 </template>
 <script>
-import network from "../tools/network.js";
-import mainScroll from "./main/mainScroll";
-import mainNavitor from "./main/mainNavitor";
-import tagView from "./main/tagView";
-import recommendList from "./main/recommendList";
-import AV from "leancloud-storage";
+import network from '../tools/network.js'
+import mainScroll from './main/mainScroll'
+import mainNavitor from './main/mainNavitor'
+import tagView from './main/tagView'
+import recommendList from './main/recommendList'
+import AV from 'leancloud-storage';
 export default {
   components: {
     mainScroll,
@@ -80,26 +80,42 @@ export default {
     network.getAllIsland(11).then(data => {
       that.islandArray = data.map(item => {
         return {
-          name: item.attributes.name,
-          url: item.attributes.imageArray[0].url
-        };
-      });
-    });
-    network.getRecommenList().then(data => {
-      that.recommendArray = data.map(item => {
-        item = item.attributes;
-        return {
-          name: item.name,
-          title: item.onleyId || "暂无描述",
-          place: item.place,
-          price: item.price,
-          startDate: item.startDate,
-          describe: item.describe,
-          url: item.imageArray[0].url,
-          countNumber: item.countNumber
-        };
-      });
-    });
-  }
-};
+            scrollArray: [],
+            islandArray:[],
+            recommendArray:[],
+        }
+    },
+    methods:{
+      
+    },
+    created() {
+        let that = this
+        network.getScrollView().then(data => {
+            that.scrollArray = data[0]._serverData.imageArray
+        })
+        network.getAllIsland(11).then(data=>{
+            that.islandArray = data.map(item=>{
+                return {
+                    name:item.attributes.name,
+                    url:item.attributes.imageArray[0].url
+                }
+            })
+        })
+        network.getRecommenList().then(data=>{
+            that.recommendArray = data.map(item=>{
+                item = item.attributes
+                return {
+                    name: item.name,
+                    title:item.onleyId||'暂无描述',
+                    place:item.place,
+                    price:item.price,
+                    startDate:item.startDate,
+                    describe:item.describe,
+                    url:item.imageArray[0].url,
+                    countNumber:item.countNumber
+                }
+            })
+        })
+    },
+}
 </script>
