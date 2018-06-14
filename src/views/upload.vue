@@ -53,6 +53,9 @@
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="(item,index) in productTypes" :value="item.value" :key="index">{{ item.label }}</Option>
         </Select>
+         <Alert>附件</Alert>
+         <file-upload class="product imageUpload" @send-image="getFileArray" :uploadList="fileArray">
+             </file-upload>
         <Alert class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
         <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
 
@@ -76,12 +79,12 @@
 import imageUpload from './imageUpload'
 import network from '../tools/network.js'
 import richEditor from './richEditor'
-
+import fileUpload from './components/fileUpload'
 export default {
     components: {
         imageUpload,
         richEditor,
-
+        fileUpload
     },
     data() {
         return {
@@ -162,6 +165,7 @@ export default {
             ],
             productTypeSelected: '',
             imageArray: [],
+            fileArray:[],
 
         }
     },
@@ -185,6 +189,10 @@ export default {
             _self.productName = data.name
             _self.productPrice = data.price
             _self.imageArray = data.imageArray
+            _self.fileArray = data.fileArray
+            if (data.fileArray == undefined) {
+                _self.fileArray = []
+            }
             _self.productStartDate = data.startDate
             _self.isFollowTeam = data.isFollowTeam || false
             _self.isFreeTravel = data.isFreeTravel || false
@@ -227,6 +235,10 @@ export default {
         getImageArray(data) {
             this.imageArray = data
         },
+        getFileArray(data){
+            this.fileArray = data
+
+        },
         getNowData(){
             var _self = this
               var dict = {
@@ -239,6 +251,7 @@ export default {
                 onleyId: _self.productNumber,
                 price: _self.productPrice,
                 imageArray: _self.imageArray,
+                fileArray:_self.fileArray,
                 detailContent: _self.richItems,
                 isRecommend: _self.isRecommend,
                 isSpecialPrice: _self.isSpecialPrice,

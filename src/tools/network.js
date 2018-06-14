@@ -138,6 +138,7 @@ export default {
         product.set('dayItems',data.dayItems)
         product.set('calendarEvents',data.calendarEvents)
         product.set('isNewProduct',data.isNewProduct)
+        product.set('fileArray',data.fileArray)
         // let TravelContent = new AV.Object('TravelDetail')
         // TravelContent.set('dependent', product)
         product.save().then(function (todo) {

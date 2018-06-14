@@ -68,23 +68,6 @@ export default {
       recommendArray: []
     };
   },
-  methods: {
-    
-  },
-  created() {
-    
-    let that = this;
-    network.getScrollView().then(data => {
-      that.scrollArray = data[0]._serverData.imageArray;
-    });
-    network.getAllIsland(11).then(data => {
-      that.islandArray = data.map(item => {
-        return {
-            scrollArray: [],
-            islandArray:[],
-            recommendArray:[],
-        }
-    },
     methods:{
       
     },
@@ -116,6 +99,7 @@ export default {
                 }
             })
         })
-    },
+    }
+  
 }
 </script>

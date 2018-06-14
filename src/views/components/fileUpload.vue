@@ -45,7 +45,6 @@
         multiple
         type="drag"
         :show-upload-list="true"
-        :format="['jpg','jpeg','png']"
         :on-progress="handleProcess"
         :on-format-error="handleFormatError"
         :on-exceeded-size="handleMaxSize"
@@ -56,18 +55,14 @@
             <p>点击或将文件拖拽到这里上传</p>
         </div>
     </Upload>
-<div class="demo-upload-list" v-for="(item,index) in uploadList" :key="index">
-            <img :src="item.url">
-            <div class="demo-upload-list-cover">
-                <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item,index)"></Icon>
-            </div>
+<div class="" v-for="(item,index) in uploadList" :key="index">
+           <a :href="item.url" target="_blank">{{item.name}}</a>
     </div>
 </div>
 
 </template>
 <script>
-import network from '../tools/network.js'
+import network from '../../tools/network.js'
 export default{
     props:['uploadList'],
     data(){
@@ -111,7 +106,8 @@ export default{
                 
                 network.uploadImage(file,function(data){
                     
-                    _self.uploadList.push({url:data.attributes.url})
+                    _self.uploadList.push({url:data.attributes.url,name:data.attributes.name})
+                    
                     _self.$emit('send-image',_self.uploadList)
                 
                 })
