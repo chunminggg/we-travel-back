@@ -53,9 +53,6 @@
         <Select v-model="productTypeSelected" class="product" placeholder="请选择产品类型">
             <Option v-for="(item,index) in productTypes" :value="item.value" :key="index">{{ item.label }}</Option>
         </Select>
-         <Alert>附件</Alert>
-         <file-upload class="product imageUpload" @send-image="getFileArray" :uploadList="fileArray">
-             </file-upload>
         <Alert class="myAlert" type="warning">产品详情滚动图（至少传一张)</Alert>
         <image-upload class="product imageUpload" @send-image="getImageArray" :uploadList="imageArray">
 

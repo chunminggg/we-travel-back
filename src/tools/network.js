@@ -1,8 +1,8 @@
 import AV from 'leancloud-storage';
 import moment from 'moment';
 moment.locale('zh-cn');
-var APP_ID = 'qDUQr0EmHHn3HOIqb3Re0IHa-gzGzoHsz';
-var APP_KEY = 'w2TRHW0KHUkt5mVHtgp9wa2s';
+var APP_ID = '9wNC9P5zyzuA7bSUCXmyNygr-gzGzoHsz';
+var APP_KEY = 'SoJCNHa1SX2NpLNMkTVX3KfL';
 AV.init({
     appId: APP_ID,
     appKey: APP_KEY
@@ -22,6 +22,7 @@ function fetchUpdate(item){
     todo.save();
     console.log('保存保存')
 }
+
 export default {
    
     userLogin(dict) {
@@ -33,6 +34,7 @@ export default {
         return query.find();
     },
     uploadImage(file, successCallback) {
+
         var name = file.name,
             dataFile = new AV.File(name, file);
 
